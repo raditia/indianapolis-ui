@@ -1,17 +1,22 @@
 <template>
   <div class="container">
-    <!--<img src="./assets/logo.png">-->
-    <div class="login-form"></div>
+    <img src="/src/assets/img/blibli-white.png">
+    <div class="login-form">
+
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'login'
+  name: 'login',
+  created: function () {
+    window.document.title = 'Indianapolis Login'
+  }
 }
 </script>
 
-<style scoped>
+<style>
   html, body {
     background-color: #1991eb;
   }
