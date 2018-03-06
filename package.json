@@ -13,10 +13,11 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "bootstrap": "^3.3.5",
     "vue": "^2.5.2",
-    "vue-router": "^3.0.1",
+    "vue-material": "^1.0.0-beta-7",
     "vue-resource": "^0.1.17",
-    "bootstrap": "^3.3.5"
+    "vue-router": "^3.0.1"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
