@@ -1,17 +1,13 @@
 <template>
   <div id="app">
+    <html-preview></html-preview>
     <router-view/>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'App',
-  created () {
-    let recaptchaScript = document.createElement('script')
-    recaptchaScript.setAttribute('src', 'assets/js/vue-material.min.js')
-    document.head.appendChild(recaptchaScript)
-  }
+  name: 'App'
 }
 </script>
 

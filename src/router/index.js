@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Login from '@/components/login/Login'
 import HelloWorld from '@/components/HelloWorld'
-import UploadCFF from '@/pages/TP/UploadCFF'
+import UploadCFF from '@/components/TP/UploadCFF'
 import VueMaterial from 'vue-material'
 import 'vue-material/dist/vue-material.min.css'
 
