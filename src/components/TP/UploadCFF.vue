@@ -4,7 +4,8 @@
       <form class="form-inline">
         <div class="form-group">
           <label for="file">Spreadsheet</label><br/>
-          <input type="file" class="form-control" id="file" :accept="SheetJSFT" @change="_change" />
+          <input type="file" class="form-control" id="file" :accept="SheetJSFT" @change="_change"/>
+          <button id="uploadButton" type="submit">Import</button>
         </div>
       </form>
     </div></div>
@@ -30,11 +31,14 @@
 
 <script>
 import XLSX from 'xlsx'
-const makeCols = refstr => Array(XLSX.utils.decode_range(refstr).e.c + 1).fill(0).map((x, i) => ({name: XLSX.utils.encode_col(i), key: i}))
+const makeCols = refstr => Array(XLSX.utils.decode_range(refstr).e.c + 1).fill(0).map((x, i) => ({
+  name: XLSX.utils.encode_col(i), key: i}))
 
 const _SheetJSFT = [
-  'xlsx', 'xlsb', 'xlsm', 'xls', 'xml', 'csv', 'txt', 'ods', 'fods', 'uos', 'sylk', 'dif', 'dbf', 'prn', 'qpw', '123', 'wb*', 'wq*', 'html', 'htm'
+  'xlsx', 'xlsb', 'xlsm', 'xls', 'xml', 'csv', 'txt', 'ods', 'fods', 'uos', 'sylk', 'dif',
+  'dbf', 'prn', 'qpw', '123', 'wb*', 'wq*', 'html', 'htm'
 ].map(function (x) { return '.' + x }).join(',')
+
 export default {
   name: 'upload-cff',
   created: function () {
