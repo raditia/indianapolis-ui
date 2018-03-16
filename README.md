@@ -1,6 +1,6 @@
 # indianapolis-ui
 
-> UI for Blibli.com's fulfillment service project.
+> UI for Indianapolis fulfillment service project.
 
 ## Build Setup
 
