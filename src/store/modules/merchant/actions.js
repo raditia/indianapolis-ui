@@ -29,7 +29,7 @@ const doPostMerchant = ({commit}, merchantData) => {
         date: merchantData.date
       },
       category: merchantData.category,
-      warehouse_destination: merchantData.warehouse_destination,
+      warehouse: merchantData.warehouse,
       goods: [
         {
           goods_id: merchantData.goods_id,
