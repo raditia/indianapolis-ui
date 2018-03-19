@@ -1,5 +1,10 @@
 <template>
   <div>
+    <!--<div class="form-group">-->
+      <!--<label>Name</label>-->
+      <!--<input v-model="merchant.name" class="form-control" type="text" placeholder="Name"/>-->
+    <!--</div>-->
+    <br/>
     <input type="file" multiple="false" id="fileToUpload"  @change="onChange"/>
     <br/>
     <button type="button" id="upload" @click="onClick">Submit</button>
@@ -16,7 +21,21 @@ import XLSX from 'xlsx'
 // ].map(function (x) { return '.' + x }).join(',')
 
 export default {
+  name: 'upload',
+  data () {
+    return {
+      merchant: {
+        name: ''
+      }
+    }
+  },
   methods: {
+    postMerchant: function () {
+      this.$store.dispatch('merchant/doPostMerchant', this.merchant)
+      this.merchant = {
+        name: ''
+      }
+    },
     onChange: function (evt) {
       var file
       var files = evt.target.files

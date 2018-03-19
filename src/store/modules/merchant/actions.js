@@ -42,8 +42,7 @@ const doPostMerchant = ({commit}, merchantData) => {
       headers: {
         'Content-type': 'application/json'
       }
-    }
-  )
+    })
     .then(response => {
       commit('postMerchant', response.data)
     })
