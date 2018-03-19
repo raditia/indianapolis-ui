@@ -1,13 +1,13 @@
 <template>
   <div>
-    <!--<div class="form-group">-->
-      <!--<label>Name</label>-->
-      <!--<input v-model="merchant.name" class="form-control" type="text" placeholder="Name"/>-->
-    <!--</div>-->
+    <div class="form-group">
+      <label>Name</label>
+      <input v-model="merchant.name" class="form-control" type="text" placeholder="Name"/>
+    </div>
     <br/>
     <input type="file" multiple="false" id="fileToUpload"  @change="onChange"/>
     <br/>
-    <button type="button" id="upload" @click="onClick">Submit</button>
+    <button type="button" id="upload" @click="postMerchant">Submit</button>
     <div id="out-table"></div>
   </div>
 </template>
