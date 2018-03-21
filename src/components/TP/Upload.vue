@@ -15,18 +15,18 @@
       </div>
       <div class="form-group">
         <label>Category</label>
-        <input id="inputCategory" v-model="category_id" type="text" class="form-control" placeholder="Enter name">
+        <input id="inputCategory" v-model="category" type="text" class="form-control" placeholder="Enter name">
       </div>
       <div class="form-group">
         <label>Warehouse</label>
-        <input id="inputWarehouse" v-model="warehouse_tujuan_id" type="text" class="form-control" placeholder="Enter name">
+        <input id="inputWarehouse" v-model="warehouse" type="text" class="form-control" placeholder="Enter name">
       </div>
       <div class="form-group">
         <input type="file" multiple="false" id="fileToUpload" @change="onChange"/>
       </div>
       <div class="form-group">
         <button type="submit" class="btn btn-primary">SUBMIT</button>
-        <div id="out-table" style="visibility: hidden"></div>
+        <div id="out-table"></div>
       </div>
     </form>
     <div class="sembarang">
@@ -49,9 +49,10 @@ export default {
         date: '',
         name: ''
       },
-      category_id: '',
-      warehouse_tujuan_id: '',
-      goods: []
+      category: '',
+      warehouse: '',
+      goods: [],
+      jsonFromSheet: []
     }
   },
   methods: {
@@ -81,10 +82,10 @@ export default {
         var ws = wb.Sheets[wsname]
 
         /* generate HTML */
-        var HTML = XLSX.utils.sheet_to_html(ws)
+        // var HTML = XLSX.utils.sheet_to_html(ws)
 
         /* update table */
-        document.getElementById('out-table').innerHTML = HTML
+        this.jsonFromSheet = XLSX.utils.sheet_to_json(ws)
       }
 
       reader.readAsArrayBuffer(file)
@@ -103,10 +104,9 @@ export default {
       // XLSX.writeFile(wb, 'sheetjs.xlsx')
     },
     postMerchant: function () {
-      var wb = XLSX.utils.table_to_sheet(document.getElementById('out-table'))
-      var ws = XLSX.utils.sheet_to_json(wb)
-      // console.log(ws)
-      // document.getElementById('json-excel').innerHTML = JSON.stringify(ws)
+      for (var i = 0; i < this.jsonFromSheet.length; i++) {
+        this.goods[i] = this.jsonFromSheet[i]
+      }
       axios.post(
         '/api/cff', {
           requestor: {
@@ -114,9 +114,9 @@ export default {
             date: this.requestor.date,
             name: this.requestor.name
           },
-          category_id: this.category_id,
-          warehouse_tujuan_id: this.warehouse_tujuan_id,
-          goods: ws.slice()
+          category: this.category,
+          warehouse: this.warehouse,
+          goods: this.goods
         }, {
           headers: {
             'Content-type': 'application/json'
@@ -128,18 +128,15 @@ export default {
         .catch(error => {
           console.log(error.response.data.errors)
         })
-      console.log(this.requestor)
-      console.log(this.category_id)
-      console.log(this.warehouse_tujuan_id)
-      console.log(this.goods)
       this.requestor = {
         id: '',
         date: '',
         name: ''
       }
-      this.category_id = ''
-      this.warehouse_tujuan_id = ''
+      this.category = ''
+      this.warehouse = ''
       this.goods = []
+      this.jsonFromSheet = []
     }
   }
 }
