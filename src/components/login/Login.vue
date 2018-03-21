@@ -2,7 +2,8 @@
   <div class="container">
     <img src="/src/assets/img/blibli-white.png">
     <div class="login-form">
-
+      <label>username</label>
+      <input type="text" class="form-control" placeholder="username"/>
     </div>
   </div>
 </template>

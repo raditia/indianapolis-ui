@@ -1,41 +1,60 @@
 <template>
-  <div>
-    <div class="form-group">
-      <label>Name</label>
-      <input v-model="merchant.name" class="form-control" type="text" placeholder="Name"/>
+  <div class="upload">
+    <form @submit.prevent="postMerchant">
+      <div class="form-group">
+        <label>ID</label>
+        <input id="inputPersonID" v-model="requestor.id" type="text" class="form-control" placeholder="Enter id">
+      </div>
+      <div class="form-group">
+        <label>Name</label>
+        <input id="inputMerchantName" v-model="requestor.name" type="text" class="form-control" placeholder="Enter name">
+      </div>
+      <div class="form-group">
+        <label>Date</label>
+        <input id="inputDate" v-model="requestor.date" type="text" class="form-control" placeholder="Enter name">
+      </div>
+      <div class="form-group">
+        <label>Category</label>
+        <input id="inputCategory" v-model="category_id" type="text" class="form-control" placeholder="Enter name">
+      </div>
+      <div class="form-group">
+        <label>Warehouse</label>
+        <input id="inputWarehouse" v-model="warehouse_tujuan_id" type="text" class="form-control" placeholder="Enter name">
+      </div>
+      <div class="form-group">
+        <input type="file" multiple="false" id="fileToUpload" @change="onChange"/>
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary">SUBMIT</button>
+        <div id="out-table" style="visibility: hidden"></div>
+      </div>
+    </form>
+    <div class="sembarang">
+      <h6 id="json-excel"></h6>
     </div>
-    <br/>
-    <input type="file" multiple="false" id="fileToUpload"  @change="onChange"/>
-    <br/>
-    <button type="button" id="upload" @click="postMerchant">Submit</button>
-    <div id="out-table"></div>
   </div>
 </template>
 
 <script>
 import XLSX from 'xlsx'
-
-// var SheetJSFT = [
-//   'xlsx', 'xlsb', 'xlsm', 'xls', 'xml', 'csv', 'txt', 'ods', 'fods', 'uos', 'sylk', 'dif', 'dbf', 'prn', 'qpw',
-//   '123', 'wb*', 'wq*', 'html', 'htm'
-// ].map(function (x) { return '.' + x }).join(',')
+import axios from 'axios'
+// import $ from 'jquery'
 
 export default {
   name: 'upload',
   data () {
     return {
-      merchant: {
+      requestor: {
+        id: '',
+        date: '',
         name: ''
-      }
+      },
+      category_id: '',
+      warehouse_tujuan_id: '',
+      goods: []
     }
   },
   methods: {
-    postMerchant: function () {
-      this.$store.dispatch('merchant/doPostMerchant', this.merchant)
-      this.merchant = {
-        name: ''
-      }
-    },
     onChange: function (evt) {
       var file
       var files = evt.target.files
@@ -66,21 +85,62 @@ export default {
 
         /* update table */
         document.getElementById('out-table').innerHTML = HTML
-        /* show export button */
-        // document.getElementById('export-table').style.visibility = 'visible'
       }
 
       reader.readAsArrayBuffer(file)
     },
     onClick: function (evt) {
       /* generate workbook object from table */
-      var wb = XLSX.utils.table_to_sheet(document.getElementById('out-table'))
-      var ws = XLSX.utils.sheet_to_json(wb)
-      console.log(ws)
+      // var wb = XLSX.utils.table_to_sheet(document.getElementById('out-table'))
+      // var ws = XLSX.utils.sheet_to_json(wb)
+      // // console.log(ws)
+      // document.getElementById('json-excel').innerHTML = JSON.stringify(ws)
+      // var self = this
+      // $.getJSON(ws, function (data) {
+      //   self.goods = data
+      // })
       /* generate file and force a download */
       // XLSX.writeFile(wb, 'sheetjs.xlsx')
+    },
+    postMerchant: function () {
+      var wb = XLSX.utils.table_to_sheet(document.getElementById('out-table'))
+      var ws = XLSX.utils.sheet_to_json(wb)
+      // console.log(ws)
+      // document.getElementById('json-excel').innerHTML = JSON.stringify(ws)
+      axios.post(
+        '/api/cff', {
+          requestor: {
+            id: this.requestor.id,
+            date: this.requestor.date,
+            name: this.requestor.name
+          },
+          category_id: this.category_id,
+          warehouse_tujuan_id: this.warehouse_tujuan_id,
+          goods: ws.slice()
+        }, {
+          headers: {
+            'Content-type': 'application/json'
+          }
+        })
+        .then(response => {
+          this.$store.commit('cff/postCff', response.data)
+        })
+        .catch(error => {
+          console.log(error.response.data.errors)
+        })
+      console.log(this.requestor)
+      console.log(this.category_id)
+      console.log(this.warehouse_tujuan_id)
+      console.log(this.goods)
+      this.requestor = {
+        id: '',
+        date: '',
+        name: ''
+      }
+      this.category_id = ''
+      this.warehouse_tujuan_id = ''
+      this.goods = []
     }
   }
 }
-
 </script>

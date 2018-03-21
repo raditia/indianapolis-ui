@@ -12,7 +12,7 @@ const postMerchant = (state, response) => {
 
 const updateMerchant = (state, response) => {
   let index = state.merchantList.findIndex(object => object.id === response.id)
-  state.merchantList.splice(index,1)
+  state.merchantList.splice(index, 1)
   state.merchantList.unshift(response)
 }
 

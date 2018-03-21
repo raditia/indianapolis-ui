@@ -2,12 +2,9 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Login from '@/components/login/Login'
 import HelloWorld from '@/components/HelloWorld'
-import UploadCFF from '@/components/TP/UploadCFF'
 import Upload from '@/components/TP/Upload'
-import VueMaterial from 'vue-material'
-import 'vue-material/dist/vue-material.min.css'
+import UploadMerchant from '@/components/TP/UploadMerchant'
 
-Vue.use(VueMaterial)
 Vue.use(Router)
 
 export default new Router({
@@ -24,14 +21,14 @@ export default new Router({
       component: HelloWorld
     },
     {
-      path: '/upload-cff',
-      name: 'upload-cff',
-      component: UploadCFF
-    },
-    {
       path: '/upload',
       name: 'upload',
       component: Upload
+    },
+    {
+      path: '/merchant',
+      name: 'upload-merchant',
+      component: UploadMerchant
     }
   ]
 })
