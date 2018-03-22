@@ -38,7 +38,7 @@
 <script>
 import XLSX from 'xlsx'
 import axios from 'axios'
-// import $ from 'jquery'
+
 
 export default {
   name: 'upload',
@@ -80,10 +80,6 @@ export default {
         /* grab first sheet */
         var wsname = wb.SheetNames[0]
         var ws = wb.Sheets[wsname]
-
-        /* generate HTML */
-        // var HTML = XLSX.utils.sheet_to_html(ws)
-
         /* update table */
         this.jsonFromSheet = XLSX.utils.sheet_to_json(ws)
       }
