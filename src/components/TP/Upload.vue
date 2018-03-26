@@ -39,7 +39,6 @@
 import XLSX from 'xlsx'
 import axios from 'axios'
 
-
 export default {
   name: 'upload',
   data () {
@@ -137,3 +136,6 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+</style>
