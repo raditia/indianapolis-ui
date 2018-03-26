@@ -1,41 +1,78 @@
 <template>
   <div class="upload">
     <form @submit.prevent="postMerchant">
-      <div class="form-group">
-        <label>ID</label>
-        <input id="inputPersonID" v-model="requestor.id" type="text" class="form-control" placeholder="Enter id">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>CFF ID</label>
+            <input id="inputCffId" v-model="requestor.id" type="text" class="form-control" placeholder="Enter id">
+          </div>
+          <div class="form-group">
+            <label>Date</label>
+            <input id="inputDate" v-model="requestor.date" type="date" class="form-control" placeholder="Enter date">
+          </div>
+          <div class="form-group">
+            <label>TP name</label>
+            <input id="inputTpName" v-model="requestor.name" type="text" class="form-control" placeholder="Enter name">
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>Merchant name</label>
+            <input id="inputMerchantName" v-model="merchant.name" type="text" class="form-control" placeholder="Enter name">
+          </div>
+          <div class="form-group">
+            <label>Merchant email</label>
+            <input id="inputMerchantEmail" v-model="merchant.emailAddress" type="text" class="form-control" placeholder="Enter name">
+          </div>
+          <div class="form-group">
+            <label>Merchant phone</label>
+            <input id="inputMerchantPhone" v-model="merchant.phoneNumber" type="text" class="form-control" placeholder="Enter name">
+          </div>
+        </div>
       </div>
       <div class="form-group">
-        <label>Name</label>
-        <input id="inputMerchantName" v-model="requestor.name" type="text" class="form-control" placeholder="Enter name">
+        <label for="allowedVehiclesSelection">Allowed Vehicles</label>
+        <select multiple class="form-control" id="allowedVehiclesSelection">
+          <option v-for="item in fleetList" :key="item.id" v-bind:value="item.id">
+            {{ item.name }}
+          </option>
+        </select>
       </div>
-      <div class="form-group">
-        <label>Date</label>
-        <input id="inputDate" v-model="requestor.date" type="text" class="form-control" placeholder="Enter name">
-      </div>
-      <div class="form-group">
-        <label>Category</label>
-        <input id="inputCategory" v-model="category" type="text" class="form-control" placeholder="Enter name">
-      </div>
-      <div class="form-group">
-        <label>Warehouse</label>
-        <input id="inputWarehouse" v-model="warehouse" type="text" class="form-control" placeholder="Enter name">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="categorySelection">Category</label>
+            <select class="form-control" id="categorySelection">
+              <option v-for="item in categoryList" :key="item.id" v-bind:value="item.id">
+                {{ item.name }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="warehouseSelection">Warehouse</label>
+            <select class="form-control" id="warehouseSelection">
+              <option v-for="item in warehouseList" :key="item.id" v-bind:value="item.id">
+                {{ item.id }}
+              </option>
+            </select>
+          </div>
+        </div>
       </div>
       <div class="form-group">
         <input type="file" multiple="false" id="fileToUpload" @change="onChange"/>
       </div>
       <div class="form-group">
         <button type="submit" class="btn btn-primary">SUBMIT</button>
-        <div id="out-table"></div>
       </div>
     </form>
-    <div class="sembarang">
-      <h6 id="json-excel"></h6>
-    </div>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import XLSX from 'xlsx'
 import axios from 'axios'
 
@@ -48,11 +85,35 @@ export default {
         date: '',
         name: ''
       },
-      category: '',
-      warehouse: '',
+      merchant: {
+        name: '',
+        emailAddress: '',
+        phoneNumber: ''
+      },
+      // TODO : Change this pickup point address and lat lng
+      pickupPoint: {
+        pickupAddress: 'Terban Yogyakarta',
+        latitude: -7.777261,
+        longitude: 110.374324
+      },
+      categoryId: '',
+      warehouseId: '',
+      allowedVehicles: [],
       goods: [],
       jsonFromSheet: []
     }
+  },
+  computed: {
+    ...mapGetters({
+      categoryList: 'category/categoryList',
+      warehouseList: 'warehouse/warehouseList',
+      fleetList: 'fleet/fleetList'
+    })
+  },
+  mounted () {
+    this.getAllCategory()
+    this.getAllWarehouse()
+    this.getAllFleet()
   },
   methods: {
     onChange: function (evt) {
@@ -81,27 +142,38 @@ export default {
         var ws = wb.Sheets[wsname]
         /* update table */
         this.jsonFromSheet = XLSX.utils.sheet_to_json(ws)
+        console.log(JSON.stringify(this.jsonFromSheet))
       }
 
       reader.readAsArrayBuffer(file)
     },
-    onClick: function (evt) {
-      /* generate workbook object from table */
-      // var wb = XLSX.utils.table_to_sheet(document.getElementById('out-table'))
-      // var ws = XLSX.utils.sheet_to_json(wb)
-      // // console.log(ws)
-      // document.getElementById('json-excel').innerHTML = JSON.stringify(ws)
-      // var self = this
-      // $.getJSON(ws, function (data) {
-      //   self.goods = data
-      // })
-      /* generate file and force a download */
-      // XLSX.writeFile(wb, 'sheetjs.xlsx')
+    getAllCategory: function () {
+      this.$store.dispatch('category/doGetAllCategory')
+    },
+    getAllWarehouse: function () {
+      this.$store.dispatch('warehouse/doGetAllWarehouse')
+    },
+    getAllFleet: function () {
+      this.$store.dispatch('fleet/doGetAllFleet')
     },
     postMerchant: function () {
+      console.log(this.jsonFromSheet.length)
       for (var i = 0; i < this.jsonFromSheet.length; i++) {
         this.goods[i] = this.jsonFromSheet[i]
       }
+      console.log(JSON.stringify(this.goods))
+      let warehouseSelection = document.getElementById('warehouseSelection')
+      this.warehouseId = warehouseSelection.options[warehouseSelection.selectedIndex].value
+      let categorySelection = document.getElementById('categorySelection')
+      this.categoryId = categorySelection.options[categorySelection.selectedIndex].value
+      let allowedVehiclesSelection = document.getElementById('allowedVehiclesSelection')
+      for (i = 0; i < allowedVehiclesSelection.options.length; i++) {
+        if (allowedVehiclesSelection.options[i].selected) {
+          this.allowedVehicles.push(allowedVehiclesSelection.options[i].text)
+        }
+      }
+      // TODO : Change this date
+      this.requestor.date = '2018-03-26T07:55:41.637+0000'
       axios.post(
         '/api/cff', {
           requestor: {
@@ -109,33 +181,57 @@ export default {
             date: this.requestor.date,
             name: this.requestor.name
           },
-          category: this.category,
-          warehouse: this.warehouse,
+          merchant: {
+            name: this.merchant.name,
+            emailAddress: this.merchant.emailAddress,
+            phoneNumber: this.merchant.phoneNumber
+          },
+          pickupPoint: {
+            pickupAddress: this.pickupPoint.pickupAddress,
+            latitude: this.pickupPoint.latitude,
+            longitude: this.pickupPoint.longitude
+          },
+          allowedVehicles: this.allowedVehicles,
+          category: this.categoryId,
+          warehouse: this.warehouseId,
           goods: this.goods
         }, {
           headers: {
             'Content-type': 'application/json'
           }
         })
-        .then(response => {
-          this.$store.commit('cff/postCff', response.data)
-        })
-        .catch(error => {
-          console.log(error.response.data.errors)
-        })
+      this.resetAll()
+    },
+    resetAll: function () {
       this.requestor = {
         id: '',
         date: '',
         name: ''
       }
-      this.category = ''
-      this.warehouse = ''
+      this.merchant = {
+        name: '',
+        emailAddress: '',
+        phoneNumber: ''
+      }
+      this.allowedVehicles = []
+      this.categoryId = ''
+      this.warehouseId = ''
       this.goods = []
       this.jsonFromSheet = []
+      // this.getAllCategory()
+      // this.getAllWarehouse()
+      // this.getAllFleet()
     }
   }
 }
 </script>
 
 <style scoped>
+  .upload {
+    float: none;
+    margin: 50px 250px 0 250px;
+  }
+  .btn-primary {
+    width: 100%;
+  }
 </style>
