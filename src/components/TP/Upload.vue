@@ -66,6 +66,7 @@
       </div>
       <div class="form-group">
         <button type="submit" class="btn btn-primary">SUBMIT</button>
+        <div id="out-table" style="display: none"></div>
       </div>
     </form>
   </div>
@@ -140,9 +141,15 @@ export default {
         /* grab first sheet */
         var wsname = wb.SheetNames[0]
         var ws = wb.Sheets[wsname]
+
+        /* generate HTML */
+        var HTML = XLSX.utils.sheet_to_html(ws)
+
         /* update table */
-        this.jsonFromSheet = XLSX.utils.sheet_to_json(ws)
-        console.log(JSON.stringify(this.jsonFromSheet))
+        document.getElementById('out-table').innerHTML = HTML
+
+        // this.jsonFromSheet = XLSX.utils.sheet_to_json(ws)
+        // console.log(JSON.stringify(this.jsonFromSheet))
       }
 
       reader.readAsArrayBuffer(file)
@@ -157,9 +164,11 @@ export default {
       this.$store.dispatch('fleet/doGetAllFleet')
     },
     postMerchant: function () {
-      console.log(this.jsonFromSheet.length)
-      for (var i = 0; i < this.jsonFromSheet.length; i++) {
-        this.goods[i] = this.jsonFromSheet[i]
+      var wb = XLSX.utils.table_to_sheet(document.getElementById('out-table'))
+      var ws = XLSX.utils.sheet_to_json(wb)
+      console.log(ws.length)
+      for (var i = 0; i < ws.length; i++) {
+        this.goods[i] = ws[i]
       }
       console.log(JSON.stringify(this.goods))
       let warehouseSelection = document.getElementById('warehouseSelection')
