@@ -4,6 +4,7 @@ import Login from '@/components/login/Login'
 import HelloWorld from '@/components/HelloWorld'
 import Upload from '@/components/TP/Upload'
 import UploadMerchant from '@/components/TP/UploadMerchant'
+import BasePack from '@/components/BasePack'
 
 Vue.use(Router)
 
@@ -29,6 +30,11 @@ export default new Router({
       path: '/merchant',
       name: 'upload-merchant',
       component: UploadMerchant
+    },
+    {
+      path: '/base',
+      name: 'base-pack',
+      component: BasePack
     }
   ]
 })
