@@ -182,7 +182,7 @@ export default {
         }
       }
       // TODO : Change this date
-      this.requestor.date = '2018-03-26T07:55:41.637+0000'
+      // this.requestor.date = '2018-03-26T07:55:41.637+0000'
       axios.post(
         '/api/cff', {
           requestor: {
