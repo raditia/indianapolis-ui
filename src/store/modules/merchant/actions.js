@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const doGetAllMerchants = ({commit}) => {
-  axios.get('/api/cff')
+  axios.get('/api/merchant')
     .then(response => {
       commit('getAllMerchants', response.data.content)
     })

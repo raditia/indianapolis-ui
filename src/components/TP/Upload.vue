@@ -108,13 +108,15 @@ export default {
     ...mapGetters({
       categoryList: 'category/categoryList',
       warehouseList: 'warehouse/warehouseList',
-      fleetList: 'fleet/fleetList'
+      fleetList: 'fleet/fleetList',
+      merchantList: 'merchant/merchantList'
     })
   },
   mounted () {
     this.getAllCategory()
     this.getAllWarehouse()
     this.getAllFleet()
+    this.getAllMerchants()
   },
   methods: {
     onChange: function (evt) {
@@ -147,12 +149,12 @@ export default {
 
         /* update table */
         document.getElementById('out-table').innerHTML = HTML
-
-        // this.jsonFromSheet = XLSX.utils.sheet_to_json(ws)
-        // console.log(JSON.stringify(this.jsonFromSheet))
       }
 
       reader.readAsArrayBuffer(file)
+    },
+    getAllMerchants: function () {
+      this.$store.dispatch('merchant/doGetAllMerchants')
     },
     getAllCategory: function () {
       this.$store.dispatch('category/doGetAllCategory')
@@ -166,11 +168,9 @@ export default {
     postMerchant: function () {
       var wb = XLSX.utils.table_to_sheet(document.getElementById('out-table'))
       var ws = XLSX.utils.sheet_to_json(wb)
-      console.log(ws.length)
       for (var i = 0; i < ws.length; i++) {
         this.goods[i] = ws[i]
       }
-      console.log(JSON.stringify(this.goods))
       let warehouseSelection = document.getElementById('warehouseSelection')
       this.warehouseId = warehouseSelection.options[warehouseSelection.selectedIndex].value
       let categorySelection = document.getElementById('categorySelection')
@@ -181,8 +181,6 @@ export default {
           this.allowedVehicles.push(allowedVehiclesSelection.options[i].text)
         }
       }
-      // TODO : Change this date
-      // this.requestor.date = '2018-03-26T07:55:41.637+0000'
       axios.post(
         '/api/cff', {
           requestor: {
