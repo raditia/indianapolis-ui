@@ -25,7 +25,9 @@
     "vue-resource": "^0.1.17",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1",
-    "xlsx": "^0.12.4"
+    "xlsx": "^0.12.4",
+    "font-awesome": "^4.7.0",
+    "bootstrap-sass": "^3.3.7"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",

@@ -4,9 +4,10 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import store from './store'
-import ElementUI from 'element-ui'
+import BootstrapVue from 'bootstrap-vue'
 
-Vue.use(ElementUI)
+Vue.use(BootstrapVue)
+// Vue.use(VueResource)
 
 Vue.config.productionTip = false
 
