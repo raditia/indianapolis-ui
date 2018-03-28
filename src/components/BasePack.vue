@@ -15,7 +15,6 @@
       </section>
     </aside>
   </div>
-
 </template>
 
 <script>
