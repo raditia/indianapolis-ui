@@ -1,84 +1,149 @@
 <template>
-  <div class="upload">
-    <form @submit.prevent="postMerchant">
+  <form @submit.prevent="postMerchant">
+    <div class="container">
       <div class="row">
-        <div class="col-md-6">
-          <div class="form-group">
-            <label>CFF ID</label>
-            <input id="inputCffId" v-model="requestor.id" type="text" class="form-control" placeholder="Enter id">
-          </div>
-          <div class="form-group">
-            <label>Date</label>
-            <input id="inputDate" v-model="requestor.date" type="date" class="form-control" placeholder="Enter date">
-          </div>
-          <div class="form-group">
-            <label>TP name</label>
-            <input id="inputTpName" v-model="requestor.name" type="text" class="form-control" placeholder="Enter name">
+        <div class="col-md-7">
+          <div class="box-header box-merchant">
+            <h4><b>Data Merchant</b></h4>
+            <div class="box-body">
+              <div class="form-group">
+                <label>CFF ID</label>
+                <input id="inputCffId" v-model="requestor.id" type="text" class="form-control" placeholder="Enter id">
+              </div>
+              <div class="base">
+                <div class="idp-value">
+                  REQUESTOR
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>TP name</label>
+                    <input id="inputTpName" v-model="requestor.name" type="text" class="form-control"
+                           placeholder="Enter name">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Merchant name</label>
+                    <input id="inputMerchantName" v-model="merchant.name" type="text" class="form-control"
+                           placeholder="Enter name">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Merchant phone</label>
+                    <input id="inputMerchantPhone" v-model="merchant.phoneNumber" type="text" class="form-control"
+                           placeholder="Enter name">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Merchant email</label>
+                    <input id="inputMerchantEmail" v-model="merchant.emailAddress" type="text" class="form-control"
+                           placeholder="Enter name">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="categorySelection">Category</label>
+                    <select class="form-control" id="categorySelection">
+                      <option v-for="item in categoryList" :key="item.id" v-bind:value="item.id">
+                        {{ item.name }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="allowedVehiclesSelection">Allowed Vehicles</label>
+                    <!--<select multiple class="form-control" id="allowedVehiclesSelection">-->
+                    <!--<option v-for="item in fleetList" :key="item.id" v-bind:value="item.id">-->
+                    <!--{{ item.name }}-->
+                    <!--</option>-->
+                    <!--</select>-->
+                    <li v-for="item in fleetList" :key="item.id">
+                      <input type="checkbox" :value="item.id" id="allowedVehiclesSelection" v-model="allowedVehicles"> {{item.name}}
+                    </li>
+                  </div>
+                </div>
+              </div>
+              <div class="base">
+                <div class="idp-value">
+                  PICK UP POINT
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="warehouseSelection">Warehouse</label>
+                    <select class="form-control" id="warehouseSelection">
+                      <option v-for="item in warehouseList" :key="item.id" v-bind:value="item.id">
+                        {{ item.id }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Date</label>
+                    <input id="inputDate" v-model="requestor.date" type="date" class="form-control"
+                           placeholder="Enter date">
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <button type="submit" class="btn idp-primary-btn">SUBMIT</button>
+                <div id="out-table" style="display: none"></div>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="col-md-6">
-          <div class="form-group">
-            <label>Merchant name</label>
-            <input id="inputMerchantName" v-model="merchant.name" type="text" class="form-control" placeholder="Enter name">
+        <div class="col-md-5">
+          <div class="box-header box-map">
+            <h4><b>Map Location</b></h4>
+            <div class="box-body">
+              <div class="idp-map">
+                <!--<Map></Map>-->
+              </div>
+            </div>
           </div>
-          <div class="form-group">
-            <label>Merchant email</label>
-            <input id="inputMerchantEmail" v-model="merchant.emailAddress" type="text" class="form-control" placeholder="Enter name">
+          <br/>
+          <div class="box-header box-upload">
+            <h4><b>Upload CFF</b></h4>
+            <div class="box-body">
+              <div class="form-group">
+                <div class="idp-upload-box">
+                  <input type="file" multiple="false" id="fileToUpload" @change="onChange"/>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="form-group">
-            <label>Merchant phone</label>
-            <input id="inputMerchantPhone" v-model="merchant.phoneNumber" type="text" class="form-control" placeholder="Enter name">
-          </div>
+          <br/>
+          <p>
+            Don't have CFF template? Download here <br/>
+            <a href="#">CFF_Template.xlsx</a>
+          </p>
+
         </div>
       </div>
-      <div class="form-group">
-        <label for="allowedVehiclesSelection">Allowed Vehicles</label>
-        <select multiple class="form-control" id="allowedVehiclesSelection">
-          <option v-for="item in fleetList" :key="item.id" v-bind:value="item.id">
-            {{ item.name }}
-          </option>
-        </select>
-      </div>
-      <div class="row">
-        <div class="col-md-6">
-          <div class="form-group">
-            <label for="categorySelection">Category</label>
-            <select class="form-control" id="categorySelection">
-              <option v-for="item in categoryList" :key="item.id" v-bind:value="item.id">
-                {{ item.name }}
-              </option>
-            </select>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="form-group">
-            <label for="warehouseSelection">Warehouse</label>
-            <select class="form-control" id="warehouseSelection">
-              <option v-for="item in warehouseList" :key="item.id" v-bind:value="item.id">
-                {{ item.id }}
-              </option>
-            </select>
-          </div>
-        </div>
-      </div>
-      <div class="form-group">
-        <input type="file" multiple="false" id="fileToUpload" @change="onChange"/>
-      </div>
-      <div class="form-group">
-        <button type="submit" class="btn btn-primary">SUBMIT</button>
-        <div id="out-table" style="display: none"></div>
-      </div>
+    </div>
     </form>
-  </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
 import XLSX from 'xlsx'
 import axios from 'axios'
+import Map from "./Map";
 
 export default {
   name: 'upload',
+  components: {Map},
   data () {
     return {
       requestor: {
@@ -236,11 +301,110 @@ export default {
 </script>
 
 <style scoped>
-  .upload {
-    float: none;
-    margin: 50px 250px 0 250px;
-  }
-  .btn-primary {
+  .box-merchant {
     width: 100%;
+    min-height: 100%;
+    background-color: #ffffff;
+    box-shadow: 0 9px 4px 0 rgba(119, 151, 178, 0.69);
+  }
+  .box-map {
+    width: 100%;
+    height: 250px;
+    background-color: #ffffff;
+    box-shadow: 0 9px 4px 0 rgba(119, 151, 178, 0.16);
+  }
+  .box-upload {
+    width: 100%;
+    height: auto;
+    background-color: #ffffff;
+    box-shadow: 0 9px 4px 0 rgba(119, 151, 178, 0.16);
+  }
+  .idp-primary-btn {
+    width: 86px;
+    height: 36px;
+    border-radius: 4px;
+    border: solid 1px rgba(0, 0, 0, 0.1);
+  }
+  label {
+    width: 196px;
+    height: 20px;
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.5;
+    text-align: left;
+    color: #7f8fa4;
+  }
+  .idp-value {
+    width: 103px;
+    height: 19px;
+    font-family: Roboto;
+    font-size: 10px;
+    font-weight: 500;
+    line-height: 1.9;
+    text-align: center;
+    color: #ffffff;
+  }
+  .idp-upload-box {
+    width: 100%;
+    height: 128px;
+    border-radius: 4px;
+    border: solid 3px #ededed;
+  }
+  .base {
+    width: 107px;
+    height: 20px;
+    background-color: #1991eb;
+  }
+
+  /*CHECKBOX x DROPDOWN*/
+  .dropdown-check-list {
+    display: inline-block;
+  }
+  .dropdown-check-list .anchor {
+    position: relative;
+    cursor: pointer;
+    display: inline-block;
+    padding: 5px 50px 5px 10px;
+    border: 1px solid #ccc;
+  }
+  .dropdown-check-list .anchor:after {
+    position: absolute;
+    content: "";
+    border-left: 2px solid black;
+    border-top: 2px solid black;
+    padding: 5px;
+    right: 10px;
+    top: 20%;
+    -moz-transform: rotate(-135deg);
+    -ms-transform: rotate(-135deg);
+    -o-transform: rotate(-135deg);
+    -webkit-transform: rotate(-135deg);
+    transform: rotate(-135deg);
+  }
+  .dropdown-check-list .anchor:active:after {
+    right: 8px;
+    top: 21%;
+  }
+  .dropdown-check-list ul.items {
+    padding: 2px;
+    display: none;
+    margin: 0;
+    border: 1px solid #ccc;
+    border-top: none;
+  }
+  .dropdown-check-list ul.items li {
+    list-style: none;
+  }
+  .dropdown-check-list.visible .anchor {
+    color: #0094ff;
+  }
+  .dropdown-check-list.visible .items {
+    display: block;
+  }
+
+  .idp-map {
+    width: auto;
+    height: 175px;
   }
 </style>
