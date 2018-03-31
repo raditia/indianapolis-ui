@@ -4,7 +4,7 @@
     <a v-link="{ path: '/' }" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini">
-        <img src="../../assets/img/blibli-white.png"/>
+        <img class="blibli-logo-mini" src="../../assets/img/blibli-white-small.png"/>
       </span>
       <!-- logo for regular state and mobile devices -->
       <span class="logo-lg">
@@ -276,6 +276,13 @@ export default {
   .blibli-logo {
     width: 132px;
     height: 47px;
+    margin-left: 0px;
+    margin-top: 5px;
+  }
+
+  .blibli-logo-mini {
+    width: 35px;
+    height: 50px;
     margin-left: 0px;
     margin-top: 5px;
   }

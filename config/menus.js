@@ -5,6 +5,10 @@ export default [
     icon: 'fa-home',
   },
   {
+    name: 'UploadCff',
+    linl: '/upload-cff'
+  },
+  {
     name: 'Users',
     link: '/users',
     icon: 'fa-user',

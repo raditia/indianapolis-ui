@@ -1,7 +1,11 @@
 <template>
   <div class="login-box">
     <div class="login-logo">
-      <a v-link="{ path: '/' }"><b>Admin</b> LTE</a>
+      <a v-link="{ path: '/' }">
+        <span class="logo-lg">
+        <img class="blibli-logo" src="../assets/img/blibli-white.png"/>
+      </span>
+      </a>
     </div>
     <!-- /.login-logo -->
     <div class="login-box-body">
@@ -69,3 +73,24 @@ export default {
   }
 }
 </script>
+<style>
+  html, body {
+    background-color: #1991eb;
+  }
+  .blibli-logo {
+    width: 132px;
+    height: 47px;
+    margin-left: 0px;
+    margin-top: 5px;
+  }
+  .login-form {
+    width: 341px;
+    height: 398px;
+    border-radius: 10px;
+    background-color: #ffffff;
+    border: solid 1px #d0e1ea;
+    margin-left: auto;
+    margin-right: auto;
+
+  }
+</style>
