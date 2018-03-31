@@ -61,14 +61,14 @@
                 <div class="col-md-6">
                   <div class="form-group">
                     <label for="allowedVehiclesSelection">Allowed Vehicles</label>
-                    <!--<select multiple class="form-control" id="allowedVehiclesSelection">-->
-                    <!--<option v-for="item in fleetList" :key="item.id" v-bind:value="item.id">-->
-                    <!--{{ item.name }}-->
-                    <!--</option>-->
-                    <!--</select>-->
-                    <li v-for="item in fleetList" :key="item.id">
-                      <input type="checkbox" :value="item.id" id="allowedVehiclesSelection" v-model="allowedVehicles"> {{item.name}}
-                    </li>
+                    <select multiple="multiple" class="form-control" id="allowedVehiclesSelection">
+                      <option v-for="item in fleetList" :key="item.id" :value="item.id">
+                        {{ item.name }}
+                      </option>
+                    </select>
+                    <!--<li v-for="item in fleetList" :key="item.id">-->
+                      <!--<input type="checkbox" :value="item.id" id="allowedVehiclesSelection" v-model="allowedVehicles"> {{item.name}}-->
+                    <!--</li>-->
                   </div>
                 </div>
               </div>
@@ -139,7 +139,7 @@
 import { mapGetters } from 'vuex'
 import XLSX from 'xlsx'
 import axios from 'axios'
-import Map from "./Map";
+import Map from './Map'
 
 export default {
   name: 'upload',
@@ -181,7 +181,15 @@ export default {
     this.getAllWarehouse()
     this.getAllFleet()
   },
+  updated () {
+    this.initializeBootstrapMultiselect()
+  },
   methods: {
+    initializeBootstrapMultiselect: function () {
+      $(document).ready(function () {
+        $('#allowedVehiclesSelection').multiselect()
+      })
+    },
     onChange: function (evt) {
       var file
       var files = evt.target.files
