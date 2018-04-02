@@ -1,7 +1,7 @@
 <template>
   <header class="main-header">
     <!-- Logo -->
-    <a v-link="{ path: '/' }" class="logo">
+    <a class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini">
         <img class="blibli-logo-mini" src="../../assets/img/blibli-white-small.png"/>
