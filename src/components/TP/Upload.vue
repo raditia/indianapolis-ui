@@ -139,7 +139,7 @@
 import { mapGetters } from 'vuex'
 import XLSX from 'xlsx'
 import axios from 'axios'
-import GoogleMap from '../GoogleMap'
+import GoogleMap from './GoogleMap'
 
 export default {
   name: 'upload',
