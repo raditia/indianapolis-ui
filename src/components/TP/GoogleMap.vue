@@ -49,6 +49,8 @@ export default {
         this.places.push(this.currentPlace)
         this.center = marker
         this.currentPlace = null
+
+        console.log(marker)
       }
     },
     geolocate: function () {
