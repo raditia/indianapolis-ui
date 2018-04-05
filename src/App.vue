@@ -2,7 +2,7 @@
   <div id="app">
     <app-header></app-header>
     <app-sidebar></app-sidebar>
-    <app-content :title="title"></app-content>
+    <app-content></app-content>
     <!--<router-view/>-->
     <!--<app-footer></app-footer>-->
   </div>
@@ -20,7 +20,6 @@ export default {
   data () {
     return {
       login: true,
-      title: null,
       menus: Menus
     }
   },

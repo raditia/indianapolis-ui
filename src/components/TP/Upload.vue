@@ -97,7 +97,7 @@
                 </div>
               </div>
               <div class="form-group">
-                <button type="submit" class="btn idp-primary-btn">SUBMIT</button>
+                <button type="submit" class="btn btn-primary" style="background-color: #1991eb">SUBMIT</button>
                 <div id="out-table" style="display: none"></div>
               </div>
             </div>
@@ -108,7 +108,7 @@
             <h4><b>Map Location</b></h4>
             <div class="box-body">
               <div class="idp-map">
-                <!--<Map></Map>-->
+                <google-map></google-map>
               </div>
             </div>
           </div>
@@ -139,11 +139,11 @@
 import { mapGetters } from 'vuex'
 import XLSX from 'xlsx'
 import axios from 'axios'
-import Map from './Map'
+import GoogleMap from './GoogleMap'
 
 export default {
   name: 'upload',
-  components: {Map},
+  components: {GoogleMap},
   data () {
     return {
       requestor: {
@@ -309,13 +309,13 @@ export default {
 <style scoped>
   .box-merchant {
     width: 100%;
-    min-height: 100%;
+    min-height: auto;
     background-color: #ffffff;
     box-shadow: 0 9px 4px 0 rgba(119, 151, 178, 0.69);
   }
   .box-map {
     width: 100%;
-    height: 250px;
+    height: 350px;
     background-color: #ffffff;
     box-shadow: 0 9px 4px 0 rgba(119, 151, 178, 0.16);
   }
@@ -411,6 +411,6 @@ export default {
 
   .idp-map {
     width: auto;
-    height: 175px;
+    height: 300px;
   }
 </style>
