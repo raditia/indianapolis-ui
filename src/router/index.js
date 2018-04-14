@@ -13,6 +13,7 @@ import UserNew from '@/pages/users/UserNew'
 
 // TP
 import UploadCff from '@/pages/TP/UploadCff'
+import Status from '@/pages/TP/Status'
 
 Vue.use(Router)
 
@@ -51,6 +52,11 @@ export default new Router({
       path: '/upload-cff',
       name: 'uploadCff',
       component: UploadCff
+    },
+    {
+      path: '/status',
+      name: 'Status',
+      component: Status
     }
   ]
 })

@@ -2,16 +2,18 @@
   <div>
     <div>
       <gmap-autocomplete
-        @place_changed="setPlace" @keyup.enter.native="addMarker">
+        @place_changed="setPlace" style="width: 250px">
       </gmap-autocomplete>
-      <button  class="btn btn-primary" style="background-color: #1991eb" @click="addMarker">Add</button>
+      <button  class="btn btn-sm btn-primary" style="background-color: #1991eb;margin-bottom: 5px" @click="addMarker">Add</button>
     </div>
     <gmap-map :center="center" :zoom="12" style="width:100%;  height: 250px;">
       <gmap-marker
         :key="index"
         v-for="(m, index) in markers"
         :position="m.position"
-        @click="center=m.position"
+        :clickable='true'
+        :draggable='true'
+        @dragend="center=m.position"
       ></gmap-marker>
     </gmap-map>
   </div>
@@ -43,7 +45,8 @@ export default {
       if (this.currentPlace) {
         const marker = {
           lat: this.currentPlace.geometry.location.lat(),
-          lng: this.currentPlace.geometry.location.lng()
+          lng: this.currentPlace.geometry.location.lng(),
+          pickupAddress: this.currentPlace.formatted_address
         }
         this.markers.push({ position: marker })
         this.places.push(this.currentPlace)
@@ -51,6 +54,7 @@ export default {
         this.currentPlace = null
 
         console.log(marker)
+        this.$store.commit('map/postMap', marker)
       }
     },
     geolocate: function () {

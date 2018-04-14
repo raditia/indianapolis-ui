@@ -5,29 +5,35 @@ export default [
     icon: 'fa-home',
   },
   {
-    name: 'UploadCff',
-    linl: '/upload-cff'
+    name: 'Upload CFF',
+    link: '/upload-cff',
+    icon: 'fa-upload'
   },
   {
-    name: 'Users',
-    link: '/users',
-    icon: 'fa-user',
-    child: [
-    {
-      name: 'New',
-      link: '/user/new',
-      icon: 'fa-circle-o',
-    },
-    {
-      name: 'Lists',
-      link: '/user/list',
-      icon: 'fa-circle-o'
-    }
-    ]
+    name: 'Check Status',
+    link: '/status',
+    icon: 'fa-clipboard-check'
   },
-  {
-    name: 'Settings',
-    link: '/settings',
-    icon: 'fa-cogs',
-  }
+  // {
+  //   name: 'Users',
+  //   link: '/users',
+  //   icon: 'fa-user',
+  //   child: [
+  //   {
+  //     name: 'New',
+  //     link: '/user/new',
+  //     icon: 'fa-circle-o',
+  //   },
+  //   {
+  //     name: 'Lists',
+  //     link: '/user/list',
+  //     icon: 'fa-circle-o'
+  //   }
+  //   ]
+  // },
+  // {
+  //   name: 'Settings',
+  //   link: '/settings',
+  //   icon: 'fa-cogs',
+  // }
 ]

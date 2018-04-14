@@ -67,7 +67,8 @@
                       </option>
                     </select>
                     <!--<li v-for="item in fleetList" :key="item.id">-->
-                      <!--<input type="checkbox" :value="item.id" id="allowedVehiclesSelection" v-model="allowedVehicles"> {{item.name}}-->
+                      <!--<input type="checkbox" :value="item.id" id="allowedVehiclesSelection"
+                      v-model="allowedVehicles"> {{item.name}}-->
                     <!--</li>-->
                   </div>
                 </div>
@@ -97,7 +98,9 @@
                 </div>
               </div>
               <div class="form-group">
-                <button type="submit" class="btn btn-primary" style="background-color: #1991eb">SUBMIT</button>
+                <button type="submit" class="btn btn-primary" style="background-color: #1991eb;float: right">
+                  SUBMIT
+                </button>
                 <div id="out-table" style="display: none"></div>
               </div>
             </div>
@@ -156,12 +159,13 @@ export default {
         emailAddress: '',
         phoneNumber: ''
       },
+      // pickupLoc: 'map',
       // TODO : Change this pickup point address and lat lng
-      pickupPoint: {
-        pickupAddress: 'Terban Yogyakarta',
-        latitude: -7.777261,
-        longitude: 110.374324
-      },
+      // pickupPoint: {
+      //   pickupAddress: 'Terban Yogyakarta',
+      //   latitude: -7.777261,
+      //   longitude: 110.374324
+      // },
       categoryId: '',
       warehouseId: '',
       allowedVehicles: [],
@@ -170,11 +174,15 @@ export default {
     }
   },
   computed: {
+    // pickupPoint () {
+    //   return this.$store.getters[this.pickupLoc]
+    // },
     ...mapGetters({
       categoryList: 'category/categoryList',
       warehouseList: 'warehouse/warehouseList',
       fleetList: 'fleet/fleetList',
-      merchantList: 'merchant/merchantList'
+      merchantList: 'merchant/merchantList',
+      pickupPoint: 'map/map'
     })
   },
   mounted () {
@@ -239,6 +247,7 @@ export default {
       this.$store.dispatch('fleet/doGetAllFleet')
     },
     postMerchant: function () {
+      console.log(this.pickupPoint)
       var wb = XLSX.utils.table_to_sheet(document.getElementById('out-table'))
       var ws = XLSX.utils.sheet_to_json(wb)
       for (var i = 0; i < ws.length; i++) {
@@ -268,8 +277,8 @@ export default {
           },
           pickupPoint: {
             pickupAddress: this.pickupPoint.pickupAddress,
-            latitude: this.pickupPoint.latitude,
-            longitude: this.pickupPoint.longitude
+            latitude: this.pickupPoint.lat,
+            longitude: this.pickupPoint.lng
           },
           allowedVehicles: this.allowedVehicles,
           category: this.categoryId,

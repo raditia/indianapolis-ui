@@ -5,6 +5,7 @@ import cffModule from './modules/cff/index'
 import categoryModule from './modules/category/index'
 import warehouseModule from './modules/warehouse/index'
 import fleetModule from './modules/fleet/index'
+import mapModule from './modules/map/index'
 
 Vue.use(Vuex)
 
@@ -14,7 +15,8 @@ const store = new Vuex.Store({
     cff: cffModule,
     category: categoryModule,
     warehouse: warehouseModule,
-    fleet: fleetModule
+    fleet: fleetModule,
+    map: mapModule
   }
 })
 

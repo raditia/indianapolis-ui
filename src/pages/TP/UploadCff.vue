@@ -6,7 +6,12 @@
 import Upload from '../../components/TP/Upload'
 export default {
   name: 'UploadCff',
-  components: {Upload}
+  components: {Upload},
+  data () {
+    return {
+      title: 'Upload CFF'
+    }
+  }
 }
 </script>
 
