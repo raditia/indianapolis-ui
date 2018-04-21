@@ -2,9 +2,12 @@
   <div>
     <div>
       <gmap-autocomplete
-        @place_changed="setPlace" style="width: 250px">
+        @place_changed="setPlace" style="width: 300px">
       </gmap-autocomplete>
-      <button  class="btn btn-sm btn-primary" style="background-color: #1991eb;margin-bottom: 5px" @click="addMarker">Add</button>
+      <button  class="btn btn-sm btn-primary"
+               style="background-color: #1991eb;
+                      margin-bottom: 5px"
+               @click="addMarker">Add</button>
     </div>
     <gmap-map :center="center" :zoom="12" style="width:100%;  height: 250px;">
       <gmap-marker

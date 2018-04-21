@@ -8,7 +8,7 @@
             <div class="box-body">
               <div class="form-group">
                 <label>CFF ID</label>
-                <input id="inputCffId" v-model="requestor.id" type="text" class="form-control" placeholder="Enter id">
+                <input required id="inputCffId" v-model="requestor.id" type="text" class="form-control" placeholder="Enter id">
               </div>
               <div class="base">
                 <div class="idp-value">
@@ -19,14 +19,14 @@
                 <div class="col-md-6">
                   <div class="form-group">
                     <label>TP name</label>
-                    <input id="inputTpName" v-model="requestor.name" type="text" class="form-control"
+                    <input required id="inputTpName" v-model="requestor.name" type="text" class="form-control"
                            placeholder="Enter name">
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="form-group">
                     <label>Merchant name</label>
-                    <input id="inputMerchantName" v-model="merchant.name" type="text" class="form-control"
+                    <input  required id="inputMerchantName" v-model="merchant.name" type="text" class="form-control"
                            placeholder="Enter name">
                   </div>
                 </div>
@@ -35,14 +35,14 @@
                 <div class="col-md-6">
                   <div class="form-group">
                     <label>Merchant phone</label>
-                    <input id="inputMerchantPhone" v-model="merchant.phoneNumber" type="text" class="form-control"
+                    <input required id="inputMerchantPhone" v-model="merchant.phoneNumber" type="text" class="form-control"
                            placeholder="Enter name">
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="form-group">
                     <label>Merchant email</label>
-                    <input id="inputMerchantEmail" v-model="merchant.emailAddress" type="text" class="form-control"
+                    <input required id="inputMerchantEmail" v-model="merchant.emailAddress" type="text" class="form-control"
                            placeholder="Enter name">
                   </div>
                 </div>
