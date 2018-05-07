@@ -8,7 +8,7 @@
       </span>
       <!-- logo for regular state and mobile devices -->
       <span class="logo-lg">
-        <img class="blibli-logo" src="../../assets/img/blibli-white.png"/>
+        <img class="blibli-login-logo" src="../../assets/img/blibli-white.png"/>
       </span>
     </a>
 
@@ -251,7 +251,7 @@
                   <a href="#" class="btn btn-default btn-flat">Profile</a>
                 </div>
                 <div class="pull-right">
-                  <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                  <a href="#" class="btn btn-default btn-flat" v-on:click="logout">Sign out</a>
                 </div>
               </li>
             </ul>
@@ -268,12 +268,25 @@ export default {
   data () {
     return {
     }
+  },
+  methods: {
+    logout: function () {
+      var app = this
+      localStorage.removeItem('lbUser')
+      app.$router.push({name: 'Login'})
+      app.$store.state.isLoggedIn = false
+    }
+  },
+  computed: {
+    checkLogin () {
+      return this.$store.state.isLoggedIn
+    }
   }
 }
 </script>
 
 <style>
-  .blibli-logo {
+  .blibli-login-logo {
     width: 132px;
     height: 47px;
     margin-left: 0px;

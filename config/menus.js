@@ -14,6 +14,11 @@ export default [
     link: '/status',
     icon: 'fa-clipboard-check'
   },
+  {
+    name: 'Manage CFFs',
+    link: '/manage-cff',
+    icon: 'fa-home'
+  }
   // {
   //   name: 'Users',
   //   link: '/users',
