@@ -1,9 +1,9 @@
 <template>
   <div id="app">
-    <app-header></app-header>
-    <app-sidebar></app-sidebar>
-    <app-content></app-content>
-    <!--<router-view/>-->
+    <!--<app-header></app-header>-->
+    <!--<app-sidebar></app-sidebar>-->
+    <!--<app-content></app-content>-->
+    <router-view/>
     <!--<app-footer></app-footer>-->
   </div>
 </template>
@@ -25,9 +25,9 @@ export default {
   },
   replace: false,
   components: {
-    AppHeader,
-    AppSidebar,
-    AppContent
+    // AppHeader,
+    // AppSidebar,
+    // AppContent
     // AppFooter
   }
 }
