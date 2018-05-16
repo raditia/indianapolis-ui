@@ -17,7 +17,7 @@ export default [
   {
     name: 'Manage CFFs',
     link: '/manage-cff',
-    icon: 'fa-home'
+    icon: 'fa-file-alt'
   }
   // {
   //   name: 'Users',

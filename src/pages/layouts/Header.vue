@@ -8,7 +8,7 @@
       </span>
       <!-- logo for regular state and mobile devices -->
       <span class="logo-lg">
-        <img class="blibli-login-logo" src="../../assets/img/blibli-white.png"/>
+        <img class="blibli-logo" src="../../assets/img/blibli-white.png"/>
       </span>
     </a>
 
@@ -286,7 +286,7 @@ export default {
 </script>
 
 <style>
-  .blibli-login-logo {
+  .blibli-logo {
     width: 132px;
     height: 47px;
     margin-left: 0px;

@@ -17,6 +17,7 @@ import Status from '@/pages/TP/Status'
 
 // SCM
 // import RecommendationPage from '@/pages/SCM/RecommendationPage'
+import ManageCFFPage from '@/pages/SCM/ManageCFFPage'
 
 Vue.use(Router)
 
@@ -30,7 +31,7 @@ const routes = [
     path: '/dashboard',
     name: 'dashboard',
     component: Dashboard,
-    meta: {requiresAuth: true, adminAuth: true, residentAuth: false}
+    // meta: {requiresAuth: true, adminAuth: true, residentAuth: false}
   },
   {
     path: '/user',
@@ -54,12 +55,17 @@ const routes = [
     path: '/upload-cff',
     name: 'uploadCff',
     component: UploadCff,
-    meta: { requiresAuth: true, residentAuth: true, adminAuth: false }
+    // meta: { requiresAuth: true, residentAuth: true, adminAuth: false }
   },
   {
     path: '/status',
     name: 'Status',
     component: Status
+  },
+  {
+    path: '/manage-cff',
+    name: 'ManageCFF',
+    component: ManageCFFPage
   }
 ]
 
