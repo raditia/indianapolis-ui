@@ -4,7 +4,7 @@
       <div class="box-header box-recommendation">
         <div class="row">
           <div class="col-md-4">
-            <h5>Destination: </h5>
+            <h5>Destination: {{ recommendation.warehouseName }}</h5>
           </div>
         </div>
       </div>
@@ -13,8 +13,32 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
-  name: 'Recommendation'
+  name: 'Recommendation',
+  data () {
+    return {
+      data: {
+        warehouseName: '',
+        cbmTotal: '',
+        fleetRecommendationResponseList: []
+      }
+    }
+  },
+  computed: {
+    ...mapGetters({
+      recommendation: 'recommendation/recommendation'
+    })
+  },
+  mounted () {
+    this.getRecommendation()
+  },
+  methods: {
+    getRecommendation: function () {
+      this.$store.dispatch('recommendation/doGetRecommendation')
+    }
+  }
 }
 </script>
 

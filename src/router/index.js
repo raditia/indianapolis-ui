@@ -16,7 +16,7 @@ import UploadCff from '@/pages/TP/UploadCff'
 import Status from '@/pages/TP/Status'
 
 // SCM
-// import RecommendationPage from '@/pages/SCM/RecommendationPage'
+import RecommendationPage from '@/pages/SCM/RecommendationPage'
 import ManageCFFPage from '@/pages/SCM/ManageCFFPage'
 
 Vue.use(Router)
@@ -66,6 +66,11 @@ const routes = [
     path: '/manage-cff',
     name: 'ManageCFF',
     component: ManageCFFPage
+  },
+  {
+    path: '/recommendation',
+    name: 'Recommendation',
+    component: RecommendationPage
   }
 ]
 

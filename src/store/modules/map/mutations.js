@@ -3,6 +3,7 @@ const getMap = (state, response) => {
 }
 
 const postMap = (state, response) => {
+  // state.map.push(response)
   state.map = response
 }
 

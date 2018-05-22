@@ -8,7 +8,7 @@
             <div class="box-body">
               <div class="form-group">
                 <label>CFF ID</label>
-                <input required id="inputCffId" v-model="requestor.id" type="text" class="form-control" placeholder="Enter id">
+                <input required id="inputCffId" v-model="tp.id" type="text" class="form-control" placeholder="Enter id">
               </div>
               <div class="base">
                 <div class="idp-value">
@@ -16,14 +16,14 @@
                 </div>
               </div>
               <div class="row">
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label>TP name</label>
-                    <input required id="inputTpName" v-model="requestor.name" type="text" class="form-control"
-                           placeholder="Enter name">
-                  </div>
-                </div>
-                <div class="col-md-6">
+                <!--<div class="col-md-6">-->
+                  <!--<div class="form-group">-->
+                    <!--<label>TP name</label>-->
+                    <!--<input required id="inputTpName" v-model="requestor.name" type="text" class="form-control"-->
+                           <!--placeholder="Enter name">-->
+                  <!--</div>-->
+                <!--</div>-->
+                <div class="col-md-12">
                   <div class="form-group">
                     <label>Merchant name</label>
                     <input  required id="inputMerchantName" v-model="merchant.name" type="text" class="form-control"
@@ -62,7 +62,7 @@
                   <div class="form-group">
                     <label for="allowedVehiclesSelection">Allowed Vehicles</label>
                     <select multiple="multiple" class="form-control" id="allowedVehiclesSelection">
-                      <option v-for="item in fleetList" :key="item.id" :value="item.id">
+                      <option v-for="item in fleetList" :key="item.name" :value="item.name">
                         {{ item.name }}
                       </option>
                     </select>
@@ -92,7 +92,7 @@
                 <div class="col-md-6">
                   <div class="form-group">
                     <label>Date</label>
-                    <input id="inputDate" v-model="requestor.date" type="date" class="form-control"
+                    <input id="inputDate" v-model="date" type="date" class="form-control"
                            placeholder="Enter date">
                   </div>
                 </div>
@@ -143,31 +143,27 @@ import { mapGetters } from 'vuex'
 import XLSX from 'xlsx'
 import axios from 'axios'
 import GoogleMap from './GoogleMap'
+import {eventBus} from '../../main'
 
 export default {
   name: 'upload',
   components: {GoogleMap},
   data () {
     return {
-      requestor: {
-        id: '',
-        date: '',
-        name: ''
+      tp: {
+        id: ''
       },
+      date: '',
       merchant: {
         name: '',
         emailAddress: '',
         phoneNumber: ''
       },
-      // pickupLoc: 'map',
-      // TODO : Change this pickup point address and lat lng
-      // pickupPoint: {
-      //   pickupAddress: 'Terban Yogyakarta',
-      //   latitude: -7.777261,
-      //   longitude: 110.374324
-      // },
       categoryId: '',
       warehouseId: '',
+      vehicle: {
+        vehicleName: ''
+      },
       allowedVehicles: [],
       goods: [],
       jsonFromSheet: []
@@ -255,35 +251,39 @@ export default {
       }
       let warehouseSelection = document.getElementById('warehouseSelection')
       this.warehouseId = warehouseSelection.options[warehouseSelection.selectedIndex].value
+
       let categorySelection = document.getElementById('categorySelection')
       this.categoryId = categorySelection.options[categorySelection.selectedIndex].value
+
       let allowedVehiclesSelection = document.getElementById('allowedVehiclesSelection')
       for (i = 0; i < allowedVehiclesSelection.options.length; i++) {
         if (allowedVehiclesSelection.options[i].selected) {
-          this.allowedVehicles.push(allowedVehiclesSelection.options[i].text)
+          this.vehicle.vehicleName = allowedVehiclesSelection.options[i].text
+          this.allowedVehicles.push(this.vehicle)
         }
       }
+      console.log(this.allowedVehicles)
       axios.post(
         '/api/cff', {
-          requestor: {
-            id: this.requestor.id,
-            date: this.requestor.date,
-            name: this.requestor.name
+          tp: {
+            id: 'TP_ID'
           },
           merchant: {
             name: this.merchant.name,
             emailAddress: this.merchant.emailAddress,
             phoneNumber: this.merchant.phoneNumber
           },
+          pickupDate: this.date,
+          warehouse: {
+            id: this.warehouseId
+          },
+          cffGoodList: this.goods,
           pickupPoint: {
             pickupAddress: this.pickupPoint.pickupAddress,
             latitude: this.pickupPoint.lat,
-            longitude: this.pickupPoint.lng
-          },
-          allowedVehicles: this.allowedVehicles,
-          category: this.categoryId,
-          warehouse: this.warehouseId,
-          goods: this.goods
+            longitude: this.pickupPoint.lng,
+            allowedVehicleList: this.allowedVehicles
+          }
         }, {
           headers: {
             'Content-type': 'application/json'
@@ -292,11 +292,12 @@ export default {
       this.resetAll()
     },
     resetAll: function () {
-      this.requestor = {
-        id: '',
-        date: '',
-        name: ''
-      }
+      // this.requestor = {
+      //   id: '',
+      //   date: '',
+      //   name: ''
+      // }
+      this.date = ''
       this.merchant = {
         name: '',
         emailAddress: '',
@@ -311,6 +312,11 @@ export default {
       // this.getAllWarehouse()
       // this.getAllFleet()
     }
+  },
+  created () {
+    eventBus.$on('map/getMap', (pickupPoint) => {
+      this.pickupPoint = pickupPoint
+    })
   }
 }
 </script>

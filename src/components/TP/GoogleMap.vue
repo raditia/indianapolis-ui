@@ -23,6 +23,7 @@
 </template>
 
 <script>
+import {eventBus} from '../../main'
 export default {
   name: 'GoogleMap',
   data () {
@@ -58,6 +59,7 @@ export default {
 
         console.log(marker)
         this.$store.commit('map/postMap', marker)
+        // eventBus.$emit('map/postMap', marker)
       }
     },
     geolocate: function () {

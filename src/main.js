@@ -18,6 +18,8 @@ Vue.use(BootstrapVue)
 
 Vue.config.productionTip = false
 
+export const eventBus = new Vue()
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

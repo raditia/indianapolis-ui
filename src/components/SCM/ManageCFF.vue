@@ -1,32 +1,25 @@
 <template>
   <div class="container">
+    <button type="button" class="btn btn-primary" style="float: right" @click="executeRecommendation">NEXT</button>
     <table class="table table-striped">
       <thead>
       <tr>
+        <th scope="col">CFF ID</th>
         <th scope="col">Merchant Name</th>
         <th scope="col">Pickup Point</th>
         <th scope="col">CBM total</th>
         <th scope="col">Pickup Date</th>
+        <th scope="col">Warehouse</th>
       </tr>
       </thead>
       <tbody>
-      <tr>
-        <th scope="row">1</th>
-        <td>Mark</td>
-        <td>Otto</td>
-        <td>@mdo</td>
-      </tr>
-      <tr>
-        <th scope="row">2</th>
-        <td>Jacob</td>
-        <td>Thornton</td>
-        <td>@fat</td>
-      </tr>
-      <tr>
-        <th scope="row">3</th>
-        <td>Larry</td>
-        <td>the Bird</td>
-        <td>@twitter</td>
+      <tr v-for="scheduling in schedulingList" :key="scheduling.cffId">
+        <th scope="row">{{scheduling.cffId}}</th>
+        <td>{{ scheduling.merchantName }}</td>
+        <td>{{ scheduling.pickupPointAddress }}</td>
+        <td>{{ scheduling.cbmTotal }}</td>
+        <td>{{ scheduling.pickupDate }}</td>
+        <td>{{ scheduling.warehouseName }}</td>
       </tr>
       </tbody>
     </table>
@@ -36,12 +29,24 @@
 
 <script>
 import {mapGetters} from 'vuex'
+import axios from 'axios'
 
 export default {
   name: 'ManageCFF',
   data () {
     return {
-      scheduling: {}
+      data: [
+        {
+          merchantName: '',
+          cffId: '',
+          cffGoodList: [],
+          pickupPointAddress: '',
+          cbmTotal: '',
+          warehouseName: '',
+          schedulingStatus: ''
+        }
+      ],
+      warehouseListId: []
     }
   },
   computed: {
@@ -55,6 +60,11 @@ export default {
   methods: {
     getAllScheduling: function () {
       this.$store.dispatch('scheduling/doGetAllScheduling')
+    },
+    executeRecommendation: function () {
+      var app = this
+      axios.get('/api/recommendation?warehouseId=warehouse_cawang')
+      app.$router.push('/recommendation')
     }
   }
 }

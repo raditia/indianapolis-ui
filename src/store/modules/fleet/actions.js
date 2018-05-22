@@ -4,8 +4,8 @@ const doGetAllFleet = ({commit}) => {
   axios.get(
     '/api/fleet')
     .then(response => {
-      commit('getAllFleet', response.data)
-      console.log(response.data)
+      commit('getAllFleet', response.data.data)
+      console.log(response.data.data)
     })
     .catch(error => {
       console.log('Error : ' + error)
