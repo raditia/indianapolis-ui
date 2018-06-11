@@ -24,6 +24,7 @@
 
 <script>
 import {eventBus} from '../../main'
+
 export default {
   name: 'GoogleMap',
   data () {
