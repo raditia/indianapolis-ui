@@ -51,7 +51,7 @@
                 <div class="col-md-6">
                   <div class="form-group">
                     <label for="categorySelection">Category</label>
-                    <select class="form-control" id="categorySelection">
+                    <select class="form-control" id="categorySelection" @change="setWarehouse">
                       <option v-for="item in categoryList" :key="item.id" v-bind:value="item.id">
                         {{ item.name }}
                       </option>
@@ -82,10 +82,10 @@
                 <div class="col-md-6">
                   <div class="form-group">
                     <label for="warehouseSelection">Warehouse</label>
-                    <select class="form-control" id="warehouseSelection">
-                      <option v-for="item in warehouseList" :key="item.id" v-bind:value="item.id">
-                        {{ item.id }}
-                      </option>
+                    <select class="form-control" id="warehouseSelection" disabled="true">
+                      <!--<option v-for="item in warehouseCategoryList" :key="item.warehouseId" v-bind:value="item.warehouseId">-->
+                        <!--{{ item.warehouseId }}-->
+                      <!--</option>-->
                     </select>
                   </div>
                 </div>
@@ -175,7 +175,8 @@ export default {
     // },
     ...mapGetters({
       categoryList: 'category/categoryList',
-      warehouseList: 'warehouse/warehouseList',
+      // warehouseList: 'warehouse/warehouseList',
+      warehouseCategoryList: 'warehouseCategory/warehouseCategoryList',
       fleetList: 'fleet/fleetList',
       merchantList: 'merchant/merchantList',
       pickupPoint: 'map/map'
@@ -183,12 +184,14 @@ export default {
   },
   mounted () {
     this.getAllCategory()
-    this.getAllWarehouse()
+    // this.getAllWarehouse()
+    this.getAllWarehouseCategory()
     this.getAllFleet()
     this.getAllMerchants()
   },
   updated () {
     this.initializeBootstrapMultiselect()
+    this.setWarehouse()
   },
   methods: {
     initializeBootstrapMultiselect: function () {
@@ -232,6 +235,9 @@ export default {
     },
     getAllMerchants: function () {
       this.$store.dispatch('merchant/doGetAllMerchants')
+    },
+    getAllWarehouseCategory: function () {
+      this.$store.dispatch('warehouseCategory/doGetAllWarehouseCategory')
     },
     getAllCategory: function () {
       this.$store.dispatch('category/doGetAllCategory')
@@ -290,6 +296,27 @@ export default {
           }
         })
       this.resetAll()
+    },
+    setWarehouse: function () {
+      let warehouseSelection = document.getElementById('warehouseSelection')
+      let categorySelection = document.getElementById('categorySelection')
+      let categoryId = categorySelection.options[categorySelection.selectedIndex].value
+      let warehouse = this.findWarehouseByCategoryId(categoryId)
+      warehouseSelection.options.length = 0
+      if (warehouse.length === 1) {
+        warehouseSelection.disabled = true
+      } else {
+        warehouseSelection.disabled = false
+      }
+      for (let i = 0; i < warehouse.length; i++) {
+        let option = document.createElement('option')
+        option.text = warehouse[i].warehouseId
+        option.value = warehouse[i].warehouseId
+        warehouseSelection.add(option, warehouseSelection[i])
+      }
+    },
+    findWarehouseByCategoryId: function (categoryId) {
+      return this.warehouseCategoryList.filter(item => item.categoryId === categoryId)
     },
     resetAll: function () {
       // this.requestor = {
