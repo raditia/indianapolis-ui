@@ -83,7 +83,8 @@
                   <div class="form-group">
                     <label for="warehouseSelection">Warehouse</label>
                     <select class="form-control" id="warehouseSelection" disabled="true">
-                      <!--<option v-for="item in warehouseCategoryList" :key="item.warehouseId" v-bind:value="item.warehouseId">-->
+                      <!--<option v-for="item in warehouseCategoryList" :key="item.warehouseId"
+                      v-bind:value="item.warehouseId">-->
                         <!--{{ item.warehouseId }}-->
                       <!--</option>-->
                     </select>
@@ -319,11 +320,9 @@ export default {
       return this.warehouseCategoryList.filter(item => item.categoryId === categoryId)
     },
     resetAll: function () {
-      // this.requestor = {
-      //   id: '',
-      //   date: '',
-      //   name: ''
-      // }
+      this.tp = {
+        id: ''
+      }
       this.date = ''
       this.merchant = {
         name: '',

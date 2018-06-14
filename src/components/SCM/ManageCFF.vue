@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <button type="button" class="btn btn-primary" style="float: right" @click="executeRecommendation">NEXT</button>
+    <button type="button" class="btn btn-primary" style="float: right" @click="recommendationResult">NEXT</button>
     <table class="table table-striped">
       <thead>
       <tr>
@@ -56,14 +56,17 @@ export default {
   },
   mounted () {
     this.getAllScheduling()
+    this.executeRecommendation()
   },
   methods: {
     getAllScheduling: function () {
       this.$store.dispatch('scheduling/doGetAllScheduling')
     },
     executeRecommendation: function () {
+      axios.get('/api/recommendation/execute')
+    },
+    recommendationResult: function () {
       var app = this
-      axios.get('/api/recommendation?warehouseId=warehouse_cawang')
       app.$router.push('/recommendation')
     }
   }
