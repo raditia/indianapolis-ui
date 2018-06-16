@@ -72,11 +72,30 @@
           <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
               <div class="modal-body">
+                <h5 style="color: #0d6aad;text-align: center">You need to call your third party logistics in order to
+                check the fleets availability</h5>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-dismiss="modal"
+                        data-target="#logisticEditDetailModal">Yes I did!</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!--Edit details modal-->
+        <div class="modal fade" id="logisticEditDetailModal" tabindex="-1" role="dialog"
+             aria-labelledby="logisticEditDetailLabel"
+             aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-body">
                 ...
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-primary">Yes I did!</button>
               </div>
             </div>
           </div>

@@ -262,11 +262,15 @@ export default {
       let categorySelection = document.getElementById('categorySelection')
       this.categoryId = categorySelection.options[categorySelection.selectedIndex].value
 
+      // TODO: Best practice way to select allowedVehicles
       let allowedVehiclesSelection = document.getElementById('allowedVehiclesSelection')
       for (i = 0; i < allowedVehiclesSelection.options.length; i++) {
         if (allowedVehiclesSelection.options[i].selected) {
-          this.vehicle.vehicleName = allowedVehiclesSelection.options[i].text
-          this.allowedVehicles.push(this.vehicle)
+          let vehicleText = '{ "vehicleName" : "' + allowedVehiclesSelection.options[i].value + '" }'
+          console.log('vehicle = ' + JSON.parse(vehicleText))
+          console.log('allowedvehicleselection = ' + allowedVehiclesSelection.options[i].value)
+          this.allowedVehicles.push(JSON.parse(vehicleText))
+          console.log('allowed vehicles inside for = ' + JSON.stringify(this.allowedVehicles))
         }
       }
       console.log(this.allowedVehicles)

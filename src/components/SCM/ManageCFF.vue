@@ -58,17 +58,21 @@ export default {
     this.getAllScheduling()
     // this.executeRecommendation()
   },
+  updated () {
+    // this.executeRecommendation()
+  },
   methods: {
     getAllScheduling: function () {
       this.$store.dispatch('scheduling/doGetAllScheduling')
     },
     executeRecommendation: function () {
-      var app = this
       axios.get('/api/recommendation/execute')
+      var app = this
       app.$router.push('/recommendation')
     },
     recommendationResult: function () {
-
+      // var app = this
+      // app.$router.push('/recommendation')
     }
   }
 }
