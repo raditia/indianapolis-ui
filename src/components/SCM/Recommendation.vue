@@ -91,11 +91,28 @@
           <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
               <div class="modal-body">
-                ...
+                <h5 style="text-align: center"><b>CONFIRM DETAIL</b></h5>
+
+                <hr>
+
+                <div class="row">
+                  <div class="col-md-4">
+                    <select class="form-control" id="logisticProvider">
+                      <option value="JNE">JNE</option>
+                      <option value="BES">BES</option>
+                    </select>
+                  </div>
+                  <div class="col-md-8">
+                    <select class="form-control" id="logisticFleet">
+                      <option value="2 van"> 2 Van</option>
+                      <option value="3 motor">3 Motor</option>
+                    </select>
+                  </div>
+                </div>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Yes I did!</button>
+                <button type="button" class="btn btn-primary">CONFIRM</button>
               </div>
             </div>
           </div>
