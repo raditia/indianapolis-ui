@@ -31,7 +31,7 @@ const routes = [
     path: '/dashboard',
     name: 'dashboard',
     component: Dashboard,
-    // meta: {requiresAuth: true, adminAuth: true, residentAuth: false}
+    meta: {requiresAuth: true, adminAuth: true, residentAuth: false}
   },
   {
     path: '/user',
@@ -55,12 +55,13 @@ const routes = [
     path: '/upload-cff',
     name: 'uploadCff',
     component: UploadCff,
-    // meta: { requiresAuth: true, residentAuth: true, adminAuth: false }
+    meta: { requiresAuth: true, residentAuth: true, adminAuth: false }
   },
   {
     path: '/status',
     name: 'Status',
-    component: Status
+    component: Status,
+    meta: { requiresAuth: true, residentAuth: true, adminAuth: false }
   },
   {
     path: '/manage-cff',
@@ -89,7 +90,7 @@ router.beforeEach((to, from, next) => {
       if (authUser.data.role_id === 'ADMIN') {
         next()
       } else {
-        next('/manage-cff')
+        next('/upload-cff')
       }
     } else if (to.meta.residentAuth) {
       const authUser = JSON.parse(window.localStorage.getItem('lbUser'))
