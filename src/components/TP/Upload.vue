@@ -8,7 +8,7 @@
             <div class="box-body">
               <div class="form-group">
                 <label>CFF ID</label>
-                <input id="inputCffId" v-model="requestor.id" type="text" class="form-control" placeholder="Enter id">
+                <input required id="inputCffId" v-model="tp.id" type="text" class="form-control" placeholder="Enter id">
               </div>
               <div class="base">
                 <div class="idp-value">
@@ -16,17 +16,17 @@
                 </div>
               </div>
               <div class="row">
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label>TP name</label>
-                    <input id="inputTpName" v-model="requestor.name" type="text" class="form-control"
-                           placeholder="Enter name">
-                  </div>
-                </div>
-                <div class="col-md-6">
+                <!--<div class="col-md-6">-->
+                  <!--<div class="form-group">-->
+                    <!--<label>TP name</label>-->
+                    <!--<input required id="inputTpName" v-model="requestor.name" type="text" class="form-control"-->
+                           <!--placeholder="Enter name">-->
+                  <!--</div>-->
+                <!--</div>-->
+                <div class="col-md-12">
                   <div class="form-group">
                     <label>Merchant name</label>
-                    <input id="inputMerchantName" v-model="merchant.name" type="text" class="form-control"
+                    <input  required id="inputMerchantName" v-model="merchant.name" type="text" class="form-control"
                            placeholder="Enter name">
                   </div>
                 </div>
@@ -35,14 +35,14 @@
                 <div class="col-md-6">
                   <div class="form-group">
                     <label>Merchant phone</label>
-                    <input id="inputMerchantPhone" v-model="merchant.phoneNumber" type="text" class="form-control"
+                    <input required id="inputMerchantPhone" v-model="merchant.phoneNumber" type="text" class="form-control"
                            placeholder="Enter name">
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="form-group">
                     <label>Merchant email</label>
-                    <input id="inputMerchantEmail" v-model="merchant.emailAddress" type="text" class="form-control"
+                    <input required id="inputMerchantEmail" v-model="merchant.emailAddress" type="text" class="form-control"
                            placeholder="Enter name">
                   </div>
                 </div>
@@ -51,7 +51,7 @@
                 <div class="col-md-6">
                   <div class="form-group">
                     <label for="categorySelection">Category</label>
-                    <select class="form-control" id="categorySelection">
+                    <select class="form-control" id="categorySelection" @change="setWarehouse">
                       <option v-for="item in categoryList" :key="item.id" v-bind:value="item.id">
                         {{ item.name }}
                       </option>
@@ -62,12 +62,13 @@
                   <div class="form-group">
                     <label for="allowedVehiclesSelection">Allowed Vehicles</label>
                     <select multiple="multiple" class="form-control" id="allowedVehiclesSelection">
-                      <option v-for="item in fleetList" :key="item.id" :value="item.id">
+                      <option v-for="item in fleetList" :key="item.name" :value="item.name">
                         {{ item.name }}
                       </option>
                     </select>
                     <!--<li v-for="item in fleetList" :key="item.id">-->
-                      <!--<input type="checkbox" :value="item.id" id="allowedVehiclesSelection" v-model="allowedVehicles"> {{item.name}}-->
+                      <!--<input type="checkbox" :value="item.id" id="allowedVehiclesSelection"
+                      v-model="allowedVehicles"> {{item.name}}-->
                     <!--</li>-->
                   </div>
                 </div>
@@ -81,23 +82,25 @@
                 <div class="col-md-6">
                   <div class="form-group">
                     <label for="warehouseSelection">Warehouse</label>
-                    <select class="form-control" id="warehouseSelection">
-                      <option v-for="item in warehouseList" :key="item.id" v-bind:value="item.id">
-                        {{ item.id }}
-                      </option>
+                    <select class="form-control" id="warehouseSelection" disabled="true">
+                      <!--<option v-for="item in warehouseCategoryList" :key="item.warehouseId" v-bind:value="item.warehouseId">-->
+                        <!--{{ item.warehouseId }}-->
+                      <!--</option>-->
                     </select>
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="form-group">
                     <label>Date</label>
-                    <input id="inputDate" v-model="requestor.date" type="date" class="form-control"
+                    <input id="inputDate" v-model="date" type="date" class="form-control"
                            placeholder="Enter date">
                   </div>
                 </div>
               </div>
               <div class="form-group">
-                <button type="submit" class="btn btn-primary" style="background-color: #1991eb">SUBMIT</button>
+                <button type="submit" class="btn btn-primary" style="background-color: #1991eb;float: right">
+                  SUBMIT
+                </button>
                 <div id="out-table" style="display: none"></div>
               </div>
             </div>
@@ -140,51 +143,55 @@ import { mapGetters } from 'vuex'
 import XLSX from 'xlsx'
 import axios from 'axios'
 import GoogleMap from './GoogleMap'
+import {eventBus} from '../../main'
 
 export default {
   name: 'upload',
   components: {GoogleMap},
   data () {
     return {
-      requestor: {
-        id: '',
-        date: '',
-        name: ''
+      tp: {
+        id: ''
       },
+      date: '',
       merchant: {
         name: '',
         emailAddress: '',
         phoneNumber: ''
       },
-      // TODO : Change this pickup point address and lat lng
-      pickupPoint: {
-        pickupAddress: 'Terban Yogyakarta',
-        latitude: -7.777261,
-        longitude: 110.374324
-      },
       categoryId: '',
       warehouseId: '',
+      vehicle: {
+        vehicleName: ''
+      },
       allowedVehicles: [],
       goods: [],
       jsonFromSheet: []
     }
   },
   computed: {
+    // pickupPoint () {
+    //   return this.$store.getters[this.pickupLoc]
+    // },
     ...mapGetters({
       categoryList: 'category/categoryList',
-      warehouseList: 'warehouse/warehouseList',
+      // warehouseList: 'warehouse/warehouseList',
+      warehouseCategoryList: 'warehouseCategory/warehouseCategoryList',
       fleetList: 'fleet/fleetList',
-      merchantList: 'merchant/merchantList'
+      merchantList: 'merchant/merchantList',
+      pickupPoint: 'map/map'
     })
   },
   mounted () {
     this.getAllCategory()
-    this.getAllWarehouse()
+    // this.getAllWarehouse()
+    this.getAllWarehouseCategory()
     this.getAllFleet()
     this.getAllMerchants()
   },
   updated () {
     this.initializeBootstrapMultiselect()
+    this.setWarehouse()
   },
   methods: {
     initializeBootstrapMultiselect: function () {
@@ -229,6 +236,9 @@ export default {
     getAllMerchants: function () {
       this.$store.dispatch('merchant/doGetAllMerchants')
     },
+    getAllWarehouseCategory: function () {
+      this.$store.dispatch('warehouseCategory/doGetAllWarehouseCategory')
+    },
     getAllCategory: function () {
       this.$store.dispatch('category/doGetAllCategory')
     },
@@ -239,6 +249,7 @@ export default {
       this.$store.dispatch('fleet/doGetAllFleet')
     },
     postMerchant: function () {
+      console.log(this.pickupPoint)
       var wb = XLSX.utils.table_to_sheet(document.getElementById('out-table'))
       var ws = XLSX.utils.sheet_to_json(wb)
       for (var i = 0; i < ws.length; i++) {
@@ -246,35 +257,39 @@ export default {
       }
       let warehouseSelection = document.getElementById('warehouseSelection')
       this.warehouseId = warehouseSelection.options[warehouseSelection.selectedIndex].value
+
       let categorySelection = document.getElementById('categorySelection')
       this.categoryId = categorySelection.options[categorySelection.selectedIndex].value
+
       let allowedVehiclesSelection = document.getElementById('allowedVehiclesSelection')
       for (i = 0; i < allowedVehiclesSelection.options.length; i++) {
         if (allowedVehiclesSelection.options[i].selected) {
-          this.allowedVehicles.push(allowedVehiclesSelection.options[i].text)
+          this.vehicle.vehicleName = allowedVehiclesSelection.options[i].text
+          this.allowedVehicles.push(this.vehicle)
         }
       }
+      console.log(this.allowedVehicles)
       axios.post(
         '/api/cff', {
-          requestor: {
-            id: this.requestor.id,
-            date: this.requestor.date,
-            name: this.requestor.name
+          tp: {
+            id: 'TP_ID'
           },
           merchant: {
             name: this.merchant.name,
             emailAddress: this.merchant.emailAddress,
             phoneNumber: this.merchant.phoneNumber
           },
+          pickupDate: this.date,
+          warehouse: {
+            id: this.warehouseId
+          },
+          cffGoodList: this.goods,
           pickupPoint: {
             pickupAddress: this.pickupPoint.pickupAddress,
-            latitude: this.pickupPoint.latitude,
-            longitude: this.pickupPoint.longitude
-          },
-          allowedVehicles: this.allowedVehicles,
-          category: this.categoryId,
-          warehouse: this.warehouseId,
-          goods: this.goods
+            latitude: this.pickupPoint.lat,
+            longitude: this.pickupPoint.lng,
+            allowedVehicleList: this.allowedVehicles
+          }
         }, {
           headers: {
             'Content-type': 'application/json'
@@ -282,12 +297,34 @@ export default {
         })
       this.resetAll()
     },
-    resetAll: function () {
-      this.requestor = {
-        id: '',
-        date: '',
-        name: ''
+    setWarehouse: function () {
+      let warehouseSelection = document.getElementById('warehouseSelection')
+      let categorySelection = document.getElementById('categorySelection')
+      let categoryId = categorySelection.options[categorySelection.selectedIndex].value
+      let warehouse = this.findWarehouseByCategoryId(categoryId)
+      warehouseSelection.options.length = 0
+      if (warehouse.length === 1) {
+        warehouseSelection.disabled = true
+      } else {
+        warehouseSelection.disabled = false
       }
+      for (let i = 0; i < warehouse.length; i++) {
+        let option = document.createElement('option')
+        option.text = warehouse[i].warehouseId
+        option.value = warehouse[i].warehouseId
+        warehouseSelection.add(option, warehouseSelection[i])
+      }
+    },
+    findWarehouseByCategoryId: function (categoryId) {
+      return this.warehouseCategoryList.filter(item => item.categoryId === categoryId)
+    },
+    resetAll: function () {
+      // this.requestor = {
+      //   id: '',
+      //   date: '',
+      //   name: ''
+      // }
+      this.date = ''
       this.merchant = {
         name: '',
         emailAddress: '',
@@ -302,6 +339,11 @@ export default {
       // this.getAllWarehouse()
       // this.getAllFleet()
     }
+  },
+  created () {
+    eventBus.$on('map/getMap', (pickupPoint) => {
+      this.pickupPoint = pickupPoint
+    })
   }
 }
 </script>

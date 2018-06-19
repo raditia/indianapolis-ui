@@ -10,7 +10,7 @@
 
 <script>
 export default {
-  name: 'login',
+  name: 'login1',
   created: function () {
     window.document.title = 'Indianapolis Login'
   }

@@ -14,6 +14,10 @@ export default {
   name: 'Dashboard',
   data () {
     return {
+      loginDetails: {
+        residentID: '',
+        password: ''
+      }
     }
   },
   route: {

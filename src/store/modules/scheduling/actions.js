@@ -1,10 +1,10 @@
 import axios from 'axios'
 
-const doGetAllWarehouse = ({commit}) => {
+const doGetAllScheduling = ({commit}) => {
   axios.get(
-    '/api/warehouse')
+    '/api/cff')
     .then(response => {
-      commit('getAllWarehouse', response.data.data)
+      commit('getAllScheduling', response.data.data)
       console.log(response.data.data)
     })
     .catch(error => {
@@ -13,5 +13,5 @@ const doGetAllWarehouse = ({commit}) => {
 }
 
 export default {
-  doGetAllWarehouse
+  doGetAllScheduling
 }

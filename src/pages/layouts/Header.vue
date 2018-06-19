@@ -251,7 +251,7 @@
                   <a href="#" class="btn btn-default btn-flat">Profile</a>
                 </div>
                 <div class="pull-right">
-                  <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                  <a href="#" class="btn btn-default btn-flat" v-on:click="logout">Sign out</a>
                 </div>
               </li>
             </ul>
@@ -267,6 +267,19 @@ export default {
   name: 'Header',
   data () {
     return {
+    }
+  },
+  methods: {
+    logout: function () {
+      var app = this
+      localStorage.removeItem('lbUser')
+      app.$router.push({name: 'Login'})
+      app.$store.state.isLoggedIn = false
+    }
+  },
+  computed: {
+    checkLogin () {
+      return this.$store.state.isLoggedIn
     }
   }
 }
