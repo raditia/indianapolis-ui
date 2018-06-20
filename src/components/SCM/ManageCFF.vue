@@ -56,15 +56,23 @@ export default {
   },
   mounted () {
     this.getAllScheduling()
+    // this.executeRecommendation()
+  },
+  updated () {
+    // this.executeRecommendation()
   },
   methods: {
     getAllScheduling: function () {
       this.$store.dispatch('scheduling/doGetAllScheduling')
     },
     executeRecommendation: function () {
+      axios.get('/api/recommendation/execute')
       var app = this
-      axios.get('/api/recommendation?warehouseId=warehouse_cawang')
       app.$router.push('/recommendation')
+    },
+    recommendationResult: function () {
+      // var app = this
+      // app.$router.push('/recommendation')
     }
   }
 }

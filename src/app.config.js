@@ -7,5 +7,6 @@ export const getHeader = function () {
     'Accept': 'application/json',
     'Authorization': 'Bearer' + tokenData.access_token
   }
+  console.log(tokenData.access_token)
   return headers
 }

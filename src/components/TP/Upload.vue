@@ -83,7 +83,8 @@
                   <div class="form-group">
                     <label for="warehouseSelection">Warehouse</label>
                     <select class="form-control" id="warehouseSelection" disabled="true">
-                      <!--<option v-for="item in warehouseCategoryList" :key="item.warehouseId" v-bind:value="item.warehouseId">-->
+                      <!--<option v-for="item in warehouseCategoryList" :key="item.warehouseId"
+                      v-bind:value="item.warehouseId">-->
                         <!--{{ item.warehouseId }}-->
                       <!--</option>-->
                     </select>
@@ -261,11 +262,15 @@ export default {
       let categorySelection = document.getElementById('categorySelection')
       this.categoryId = categorySelection.options[categorySelection.selectedIndex].value
 
+      // TODO: Best practice way to select allowedVehicles
       let allowedVehiclesSelection = document.getElementById('allowedVehiclesSelection')
       for (i = 0; i < allowedVehiclesSelection.options.length; i++) {
         if (allowedVehiclesSelection.options[i].selected) {
-          this.vehicle.vehicleName = allowedVehiclesSelection.options[i].text
-          this.allowedVehicles.push(this.vehicle)
+          let vehicleText = '{ "vehicleName" : "' + allowedVehiclesSelection.options[i].value + '" }'
+          console.log('vehicle = ' + JSON.parse(vehicleText))
+          console.log('allowedvehicleselection = ' + allowedVehiclesSelection.options[i].value)
+          this.allowedVehicles.push(JSON.parse(vehicleText))
+          console.log('allowed vehicles inside for = ' + JSON.stringify(this.allowedVehicles))
         }
       }
       console.log(this.allowedVehicles)
@@ -319,11 +324,9 @@ export default {
       return this.warehouseCategoryList.filter(item => item.categoryId === categoryId)
     },
     resetAll: function () {
-      // this.requestor = {
-      //   id: '',
-      //   date: '',
-      //   name: ''
-      // }
+      this.tp = {
+        id: ''
+      }
       this.date = ''
       this.merchant = {
         name: '',
