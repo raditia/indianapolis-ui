@@ -5,6 +5,7 @@ import Router from 'vue-router'
 import Login from '@/pages/login/Login'
 import Dashboard from '@/pages/Dashboard'
 import Setting from '@/pages/Setting'
+import AccessDenied from '@/components/AccessDenied'
 
 // User
 import User from '@/pages/users/User'
@@ -24,14 +25,20 @@ Vue.use(Router)
 const routes = [
   {
     path: '/',
-    name: 'Login',
+    name: 'login',
     component: Login
+  },
+  {
+    path: '/denied',
+    name: 'accessDenied',
+    component: AccessDenied,
+    meta: {requiresAuth: false, scmAuth: false, tpAuth: false}
   },
   {
     path: '/dashboard',
     name: 'dashboard',
     component: Dashboard,
-    meta: {requiresAuth: true, adminAuth: true, residentAuth: false}
+    meta: {requiresAuth: false, scmAuth: false, tpAuth: false}
   },
   {
     path: '/user',
@@ -55,23 +62,25 @@ const routes = [
     path: '/upload-cff',
     name: 'uploadCff',
     component: UploadCff,
-    meta: { requiresAuth: true, residentAuth: true, adminAuth: false }
+    meta: {requiresAuth: true, scmAuth: false, tpAuth: true}
   },
   {
     path: '/status',
-    name: 'Status',
+    name: 'status',
     component: Status,
-    meta: { requiresAuth: true, residentAuth: true, adminAuth: false }
+    meta: {requiresAuth: true, scmAuth: false, tpAuth: true}
   },
   {
     path: '/manage-cff',
-    name: 'ManageCFF',
-    component: ManageCFFPage
+    name: 'manageCff',
+    component: ManageCFFPage,
+    meta: {requiresAuth: true, scmAuth: true, tpAuth: false}
   },
   {
     path: '/recommendation',
-    name: 'Recommendation',
-    component: RecommendationPage
+    name: 'recommendation',
+    component: RecommendationPage,
+    meta: {requiresAuth: true, scmAuth: true, tpAuth: false}
   }
 ]
 
@@ -82,23 +91,22 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
   if (to.meta.requiresAuth) {
-    const authUser = JSON.parse(window.localStorage.getItem('lbUser'))
-    if (!authUser || !authUser.token) {
-      next({name: 'Login'})
-    } else if (to.meta.adminAuth) {
-      const authUser = JSON.parse(window.localStorage.getItem('lbUser'))
-      if (authUser.data.role_id === 'ADMIN') {
+    const authUser = JSON.parse(window.localStorage.getItem('user'))
+    if (!authUser) {
+      next('/')
+    } else if (to.meta.tpAuth) {
+      const authUser = JSON.parse(window.localStorage.getItem('user'))
+      if (authUser.userRole === 'tp') {
         next()
-      } else {
-        next('/upload-cff')
+      } else if (authUser.userRole === 'scm') {
+        next('/denied')
       }
-    } else if (to.meta.residentAuth) {
-      const authUser = JSON.parse(window.localStorage.getItem('lbUser'))
-      if (authUser.data.role_id === 'RESIDENT') {
+    } else if (to.meta.scmAuth) {
+      const authUser = JSON.parse(window.localStorage.getItem('user'))
+      if (authUser.userRole === 'scm') {
         next()
-      } else {
-        console.log('Im in admin')
-        next('/dashboard')
+      } else if (authUser.userRole === 'tp') {
+        next('/denied')
       }
     }
   } else {

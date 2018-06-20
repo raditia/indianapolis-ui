@@ -1,10 +1,11 @@
 <template>
-  <div id="app">
+  <div v-if="authUser===null">
+    <app-content></app-content>
+  </div>
+  <div v-else>
     <app-header></app-header>
     <app-sidebar></app-sidebar>
     <app-content></app-content>
-    <!--<router-view/>-->
-    <!--<app-footer></app-footer>-->
   </div>
 </template>
 
@@ -19,8 +20,12 @@ export default {
   name: 'App',
   data () {
     return {
-      login: true,
       menus: Menus
+    }
+  },
+  computed: {
+    authUser () {
+      return window.localStorage.getItem('user')
     }
   },
   replace: false,

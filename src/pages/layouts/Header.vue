@@ -271,15 +271,9 @@ export default {
   },
   methods: {
     logout: function () {
-      var app = this
-      localStorage.removeItem('lbUser')
-      app.$router.push({name: 'Login'})
-      app.$store.state.isLoggedIn = false
-    }
-  },
-  computed: {
-    checkLogin () {
-      return this.$store.state.isLoggedIn
+      window.localStorage.removeItem('user')
+      window.location.href = '/'
+      this.$store.dispatch('login/doSetLoggedInUser', false)
     }
   }
 }

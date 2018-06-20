@@ -1,11 +1,13 @@
 <template>
   <div class="login-box">
     <div class="login-logo">
-      <a v-link="{ path: '/' }">
-        <span class="logo-lg">
-        <img class="blibli-login-logo" src="../../assets/img/blibli-white.png"/>
-      </span>
-      </a>
+      <router-link to="/">
+        <a>
+          <span class="logo-lg">
+            <img class="blibli-login-logo" src="../../assets/img/blibli-white.png"/>
+          </span>
+        </a>
+      </router-link>
     </div>
     <!-- /.login-logo -->
     <div class="login-box-body">
@@ -28,7 +30,7 @@
         <div class="row">
           <div class="col-md-12">
             <div class="form-group has-feedback">
-              <input type="text" class="form-control" placeholder="Email" v-model="loginDetails.residentID">
+              <input type="text" class="form-control" placeholder="Email" v-model="loginDetails.email">
               <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
             </div>
           </div>
@@ -56,61 +58,66 @@
 </template>
 
 <script>
-import loginService from './loginService'
+import axios from 'axios'
 export default {
   name: 'Login',
   data () {
     return {
       messages: '',
       success: false,
-      body_class: 'hold-transition login-page',
       loginDetails: {
-        residentID: '',
+        email: '',
         password: ''
+      },
+      loginDataResponse: {
+        userId: '',
+        userName: '',
+        userRole: ''
       }
     }
   },
   methods: {
     login: function () {
-      // this.$parent.$data.login = false
-      this.$parent.$data.body_class = 'sidebar-mini skin-blue-light'
-
-      const authUser = {}
-      var app = this
-      loginService.login(this.loginDetails)
-        .then(function (res) {
-          if (res.status === 'success') {
-            authUser.data = res.data
-            authUser.token = res.token
-            app.$store.state.isLoggedIn = true
-            window.localStorage.setItem('lbUser', JSON.stringify(authUser))
-            if (authUser.data.role_id === 'ADMIN') {
-              app.$router.push('/dashboard')
-            } else {
-              app.$router.push('/upload-cff')
-            }
-          } else {
-            app.$store.state.isLoggedIn = false
+      axios.post(
+        '/api/login', {
+          email: this.loginDetails.email,
+          password: this.loginDetails.password
+        }, {
+          headers: {
+            'Content-type': 'application/json'
           }
         })
-        .catch(function (err) {
-          console.log(err.data)
+        .then(response => {
+          this.loginDataResponse = response.data.data
+          if (this.loginDataResponse != null) {
+            this.$store.dispatch('login/doSetLoggedInUser', true)
+            window.localStorage.setItem('user', JSON.stringify(this.loginDataResponse))
+            if (this.loginDataResponse.userRole === 'tp') {
+              window.location.href = '/upload-cff'
+            } else if (this.loginDataResponse.userRole === 'scm') {
+              window.location.href = '/manage-cff'
+            }
+          } else {
+            this.$store.dispatch('login/doSetLoggedInUser', false)
+          }
+        })
+        .catch(error => {
+          console.log('Error : ' + error)
         })
     },
-    loginAuth: function () {
-      var app = this
-      const status = JSON.parse(window.localStorage.getItem('lbUser'))
+    checkLoginStatus: function () {
+      const status = JSON.parse(window.localStorage.getItem('user'))
       if (status === null || status === undefined) {
-        app.$router.push('/')
-      } else if (status.data.role_id === 'ADMIN') {
-        app.$router.push('/dashboard')
-      } else {
-        app.$router.push('/manage-cff')
+        this.$router.push('/')
+      } else if (status.data.role === 'tp') {
+        this.$router.push('/upload-cff')
+      } else if (status.data.role === 'scm') {
+        this.$router.push('/manage-cff')
       }
     }
   },
   created: function () {
-    this.loginAuth()
+    this.checkLoginStatus()
   }
 }
 </script>
