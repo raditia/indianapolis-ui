@@ -90,15 +90,12 @@ export default {
         .then(response => {
           this.loginDataResponse = response.data.data
           if (this.loginDataResponse != null) {
-            this.$store.dispatch('login/doSetLoggedInUser', true)
             window.localStorage.setItem('user', JSON.stringify(this.loginDataResponse))
             if (this.loginDataResponse.userRole === 'tp') {
               window.location.href = '/upload-cff'
             } else if (this.loginDataResponse.userRole === 'scm') {
               window.location.href = '/manage-cff'
             }
-          } else {
-            this.$store.dispatch('login/doSetLoggedInUser', false)
           }
         })
         .catch(error => {
@@ -108,11 +105,11 @@ export default {
     checkLoginStatus: function () {
       const status = JSON.parse(window.localStorage.getItem('user'))
       if (status === null || status === undefined) {
-        this.$router.push('/')
-      } else if (status.data.role === 'tp') {
-        this.$router.push('/upload-cff')
-      } else if (status.data.role === 'scm') {
-        this.$router.push('/manage-cff')
+        window.location.href = '/'
+      } else if (status.userRole === 'tp') {
+        window.location.href = '/upload-cff'
+      } else if (status.userRole === 'scm') {
+        window.location.href = '/upload-cff'
       }
     }
   },
