@@ -13,7 +13,6 @@
 import AppHeader from './pages/layouts/Header'
 import AppSidebar from './pages/layouts/Sidebar'
 import AppContent from './pages/layouts/Content'
-// import AppFooter from './pages/layouts/Footer'
 import Menus from './../config/menus'
 
 export default {
@@ -33,7 +32,6 @@ export default {
     AppHeader,
     AppSidebar,
     AppContent
-    // AppFooter
   }
 }
 </script>

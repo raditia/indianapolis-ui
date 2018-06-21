@@ -8,7 +8,7 @@
             <div class="box-body">
               <div class="form-group">
                 <label>CFF ID</label>
-                <input required id="inputCffId" v-model="tp.id" type="text" class="form-control" placeholder="Enter id">
+                <input required id="inputCffId" v-model="cffID" type="text" class="form-control" placeholder="Enter id">
               </div>
               <div class="base">
                 <div class="idp-value">
@@ -16,13 +16,6 @@
                 </div>
               </div>
               <div class="row">
-                <!--<div class="col-md-6">-->
-                  <!--<div class="form-group">-->
-                    <!--<label>TP name</label>-->
-                    <!--<input required id="inputTpName" v-model="requestor.name" type="text" class="form-control"-->
-                           <!--placeholder="Enter name">-->
-                  <!--</div>-->
-                <!--</div>-->
                 <div class="col-md-12">
                   <div class="form-group">
                     <label>Merchant name</label>
@@ -151,9 +144,8 @@ export default {
   components: {GoogleMap},
   data () {
     return {
-      tp: {
-        id: ''
-      },
+      cffID: '',
+      tpID: '',
       date: '',
       merchant: {
         name: '',
@@ -273,11 +265,15 @@ export default {
           console.log('allowed vehicles inside for = ' + JSON.stringify(this.allowedVehicles))
         }
       }
+      let tpID = JSON.parse(window.localStorage.getItem('user')).userId
+      this.tpID = tpID
       console.log(this.allowedVehicles)
+      console.log(this.tpID)
       axios.post(
         '/api/cff', {
+          id: this.cffID,
           tp: {
-            id: 'TP_ID'
+            id: this.tpID
           },
           merchant: {
             name: this.merchant.name,

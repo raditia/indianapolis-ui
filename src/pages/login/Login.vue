@@ -104,12 +104,15 @@ export default {
     },
     checkLoginStatus: function () {
       const status = JSON.parse(window.localStorage.getItem('user'))
+      var app = this
+
       if (status === null || status === undefined) {
-        window.location.href = '/'
+        // window.location.href = '/'
+        app.$router.push('/')
       } else if (status.userRole === 'tp') {
         window.location.href = '/upload-cff'
       } else if (status.userRole === 'scm') {
-        window.location.href = '/upload-cff'
+        window.location.href = '/manage-cff'
       }
     }
   },
