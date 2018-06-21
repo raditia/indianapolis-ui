@@ -163,12 +163,8 @@ export default {
     }
   },
   computed: {
-    // pickupPoint () {
-    //   return this.$store.getters[this.pickupLoc]
-    // },
     ...mapGetters({
       categoryList: 'category/categoryList',
-      // warehouseList: 'warehouse/warehouseList',
       warehouseCategoryList: 'warehouseCategory/warehouseCategoryList',
       fleetList: 'fleet/fleetList',
       merchantList: 'merchant/merchantList',
@@ -177,7 +173,6 @@ export default {
   },
   mounted () {
     this.getAllCategory()
-    // this.getAllWarehouse()
     this.getAllWarehouseCategory()
     this.getAllFleet()
     this.getAllMerchants()
@@ -320,6 +315,7 @@ export default {
       return this.warehouseCategoryList.filter(item => item.categoryId === categoryId)
     },
     resetAll: function () {
+      this.cffID =  '',
       this.tp = {
         id: ''
       }
@@ -334,9 +330,6 @@ export default {
       this.warehouseId = ''
       this.goods = []
       this.jsonFromSheet = []
-      // this.getAllCategory()
-      // this.getAllWarehouse()
-      // this.getAllFleet()
     }
   },
   created () {

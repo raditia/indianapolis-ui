@@ -59,6 +59,7 @@ export default {
     this.executeRecommendation()
   },
   updated () {
+    this.getAllScheduling()
     this.executeRecommendation()
   },
   methods: {
