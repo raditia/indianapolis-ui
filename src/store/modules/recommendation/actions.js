@@ -16,8 +16,7 @@ const doPostRecommendation = ({commit}, recommendationData) => {
     '/api/recommendation/pickup', {
       recommendationResultId: recommendationData.recommendationResultId,
       pickupDate: recommendationData.pickupDate
-    }, 
-    {
+    }, {
       headers: {
         'Content-type': 'application/json'
       }
@@ -29,8 +28,6 @@ const doPostRecommendation = ({commit}, recommendationData) => {
       console.log('Error: ' + error)
     })
 }
-
-
 
 export default {
   doGetRecommendation,

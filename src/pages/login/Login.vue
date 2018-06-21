@@ -13,14 +13,14 @@
     <div class="login-box-body">
       <p class="login-box-msg">Sign in to start your session</p>
       <form v-on:submit.prevent="login()">
-        <div v-if="!success && messages != ''">
+        <div v-if="!success && messages == 'Login failed!'">
           <div class="alert alert-danger">
             <a href="#" class="close" data-dismiss="alert">&times;</a>
             {{ messages }}
           </div>
         </div>
 
-        <div v-if="success && messages != ''">
+        <div v-if="success && messages == 'Login success!'">
           <div class="alert alert-success">
             <a href="#" class="close" data-dismiss="alert">&times;</a>
             {{ messages }}
@@ -91,15 +91,22 @@ export default {
           this.loginDataResponse = response.data.data
           if (this.loginDataResponse != null) {
             window.localStorage.setItem('user', JSON.stringify(this.loginDataResponse))
+            this.success = true
+            this.messages = 'Login success!'
             if (this.loginDataResponse.userRole === 'tp') {
               window.location.href = '/upload-cff'
             } else if (this.loginDataResponse.userRole === 'scm') {
               window.location.href = '/manage-cff'
             }
           }
+          else {
+            this.messages = 'Login failed!'
+          }
         })
         .catch(error => {
           console.log('Error : ' + error)
+          this.messages = 'Login failed!'
+
         })
     },
     checkLoginStatus: function () {
@@ -107,7 +114,6 @@ export default {
       var app = this
 
       if (status === null || status === undefined) {
-        // window.location.href = '/'
         app.$router.push('/')
       } else if (status.userRole === 'tp') {
         window.location.href = '/upload-cff'
