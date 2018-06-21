@@ -27,11 +27,12 @@
 </template>
 
 <script>
+import Menus from '../../../config/menus'
 export default {
   name: 'Sidebar',
   data () {
     return {
-      menus: this.$parent.$data.menus || []
+      menus: Menus || []
     }
   },
   ready () {

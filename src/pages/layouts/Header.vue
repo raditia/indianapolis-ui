@@ -217,33 +217,19 @@
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="../../assets/images/user2-160x160.jpg" class="user-image" alt="User Image">
-              <span class="hidden-xs">Bapakmu</span>
+              <!--<img src="../../assets/images/user2-160x160.jpg" class="user-image" alt="User Image">-->
+              <span class="hidden-xs">{{username}}</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
-                <img src="../../assets/images/user2-160x160.jpg" class="img-circle" alt="User Image">
-
+                <!--<img src="../../assets/images/user2-160x160.jpg" class="img-circle" alt="User Image">-->
                 <p>
-                  Alexander Pierce - Web Developer
-                  <small>Member since Nov. 2012</small>
+                  {{username}}
+                  <br/>
+                  -
+                  {{userRole}}
                 </p>
-              </li>
-              <!-- Menu Body -->
-              <li class="user-body">
-                <div class="row">
-                  <div class="col-xs-4 text-center">
-                    <a href="#">Followers</a>
-                  </div>
-                  <div class="col-xs-4 text-center">
-                    <a href="#">Sales</a>
-                  </div>
-                  <div class="col-xs-4 text-center">
-                    <a href="#">Friends</a>
-                  </div>
-                </div>
-                <!-- /.row -->
               </li>
               <!-- Menu Footer-->
               <li class="user-footer">
@@ -267,20 +253,24 @@ export default {
   name: 'Header',
   data () {
     return {
+      username: '',
+      userRole: ''
     }
   },
   methods: {
     logout: function () {
-      var app = this
-      localStorage.removeItem('lbUser')
-      app.$router.push({name: 'Login'})
-      app.$store.state.isLoggedIn = false
+      window.localStorage.removeItem('user')
+      window.location.href = '/'
+      this.$store.dispatch('login/doSetLoggedInUser', false)
+    },
+    getUserInformation: function () {
+      let user = JSON.parse(window.localStorage.getItem('user'))
+      this.username = user.userName
+      this.userRole = user.userRole
     }
   },
-  computed: {
-    checkLogin () {
-      return this.$store.state.isLoggedIn
-    }
+  created: function () {
+    this.getUserInformation()
   }
 }
 </script>
