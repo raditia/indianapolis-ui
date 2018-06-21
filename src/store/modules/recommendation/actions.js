@@ -11,6 +11,28 @@ const doGetRecommendation = ({commit}) => {
     })
 }
 
+const doPostRecommendation = ({commit}, recommendationData) => {
+  axios.post(
+    '/api/recommendation/pickup', {
+      recommendationResultId: recommendationData.recommendationResultId,
+      pickupDate: recommendationData.pickupDate
+    }, 
+    {
+      headers: {
+        'Content-type': 'application/json'
+      }
+    })
+    .then(response => {
+      commit('postRecommendation', response.data)
+    })
+    .catch(error => {
+      console.log('Error: ' + error)
+    })
+}
+
+
+
 export default {
-  doGetRecommendation
+  doGetRecommendation,
+  doPostRecommendation
 }
