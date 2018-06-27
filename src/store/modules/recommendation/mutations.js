@@ -7,5 +7,6 @@ const postRecommendation = (state, response) => {
 }
 
 export default {
-  getRecommendation
+  getRecommendation,
+  postRecommendation
 }

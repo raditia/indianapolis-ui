@@ -315,7 +315,7 @@ export default {
       return this.warehouseCategoryList.filter(item => item.categoryId === categoryId)
     },
     resetAll: function () {
-      this.cffID =  '',
+      this.cffID = ''
       this.tp = {
         id: ''
       }

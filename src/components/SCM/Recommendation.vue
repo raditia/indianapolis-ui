@@ -20,11 +20,11 @@
               <h5 style="text-align: center">1st option</h5>
               <select class="form-control" id="firstOption">
                 <option value="1 van">{{ recommendation.fleetRecommendationResponseList[0].fleetName[0] }}</option>
-                
+
               </select>
-              <select class="form-control" id="firstOption">
+              <!-- <select class="form-control" id="firstOption">
                 <option value="2 van">{{ recommendation.fleetRecommendationResponseList[1].fleetName[0] }}</option>
-              </select>
+              </select> -->
 
               <br>
 
@@ -34,11 +34,12 @@
             <div class="col-md-4">
               <h5 style="text-align: center"><b style="color: #0d6aad">Recommended</b></h5>
               <select class="form-control" id="recommendedOption">
-                <option value="2 van">{{ recommendation.fleetRecommendationResponseList[2].fleetName[0] }}</option>
+                <option value="2 van">{{ recommendation.fleetRecommendationResponseList[1].fleetName[0] }}</option>
+                
               </select>
-              <select class="form-control" id="recommendedOption">
+              <!-- <select class="form-control" id="recommendedOption">
                 <option value="2 van">{{ recommendation.fleetRecommendationResponseList[3].fleetName[0] }}</option>
-              </select>
+              </select> -->
 
               <br>
 
@@ -48,11 +49,11 @@
             <div class="col-md-4">
               <h5 style="text-align: center">2nd option</h5>
               <select class="form-control" id="secondOption">
-                <option value="2 van">{{ recommendation.fleetRecommendationResponseList[4].fleetName[0] }}</option>
+                <option value="2 van">{{ recommendation.fleetRecommendationResponseList[2].fleetName[0] }}</option>
               </select>
-              <select class="form-control" id="secondOption">
+              <!-- <select class="form-control" id="secondOption">
                 <option value="2 van">{{ recommendation.fleetRecommendationResponseList[5].fleetName[0] }}</option>
-              </select>
+              </select> -->
 
               <br>
 
@@ -144,6 +145,9 @@ export default {
     getRecommendation: function () {
       this.$store.dispatch('recommendation/doGetRecommendation')
       console.log(this.recommendation)
+
+      this.fleetRecommendationResponseList = this.recommendation.fleetRecommendationResponseList
+      console.log(this.fleetRecommendationResponseList)
     }
   }
 }

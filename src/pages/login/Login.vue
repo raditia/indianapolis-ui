@@ -98,15 +98,12 @@ export default {
             } else if (this.loginDataResponse.userRole === 'scm') {
               window.location.href = '/manage-cff'
             }
-          }
-          else {
+          } else {
             this.messages = 'Login failed!'
           }
         })
         .catch(error => {
           console.log('Error : ' + error)
-          this.messages = 'Login failed!'
-
         })
     },
     checkLoginStatus: function () {
