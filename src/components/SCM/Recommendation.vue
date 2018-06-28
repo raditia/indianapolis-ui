@@ -34,8 +34,12 @@
             <div class="col-md-4">
               <h5 style="text-align: center"><b style="color: #0d6aad">Recommended</b></h5>
               <select class="form-control" id="recommendedOption">
-                <option value="2 van">{{ recommendation.fleetRecommendationResponseList[1].fleetName[0] }}</option>
-                
+                <!-- <option value="2 van">{{ recommendation.fleetRecommendationResponseList[1].fleetName[0] }}</option> -->
+               <option :v-for=" result in this.fleetRecommendationResponseList" 
+                :key="result.recommendationResultId" 
+                :value="result.fleetName">
+                {{result.fleetName}}
+                </option>
               </select>
               <!-- <select class="form-control" id="recommendedOption">
                 <option value="2 van">{{ recommendation.fleetRecommendationResponseList[3].fleetName[0] }}</option>
