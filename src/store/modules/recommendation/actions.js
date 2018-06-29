@@ -1,7 +1,7 @@
 import axios from 'axios'
 
-const doGetRecommendation = ({commit}) => {
-  axios.get('/api/recommendation/result?warehouseId=warehouse_cawang')
+const doGetRecommendation = ({commit}, warehouseId) => {
+  axios.get('/api/recommendation/result?warehouseId=' + warehouseId)
     .then(response => {
       commit('getRecommendation', response.data.data)
       console.log(response.data.data)

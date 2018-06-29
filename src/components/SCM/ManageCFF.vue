@@ -1,6 +1,21 @@
 <template>
   <div class="container">
-    <button type="button" class="btn btn-primary" style="float: right" @click="recommendationResult">NEXT</button>
+    <div class="row" style="float: right;">
+      <div class="col-md-6">
+        <div class="form-group">
+          <select class="form-control" id="warehouseSelection">
+            <option v-for="item in this.warehouseList" :key="item.id" v-bind:value="item.id" @change="setWarehouseId">
+              {{ item.id }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <button type="button" class="btn btn-primary" @click="recommendationResult">NEXT</button>
+        </div>
+      </div>
+    </div>
     <table class="table table-striped">
       <thead>
       <tr>
@@ -46,17 +61,19 @@ export default {
           schedulingStatus: ''
         }
       ],
-      warehouseListId: []
+      warehouseId: 'warehouse_cawang'
     }
   },
   computed: {
     ...mapGetters({
-      schedulingList: 'scheduling/schedulingList'
+      schedulingList: 'scheduling/schedulingList',
+      warehouseList: 'warehouse/warehouseList'
     })
   },
   mounted () {
     this.getAllScheduling()
     this.executeRecommendation()
+    this.getAllWarehouse()
   },
   updated () {
     // this.getAllScheduling()
@@ -66,12 +83,23 @@ export default {
     getAllScheduling: function () {
       this.$store.dispatch('scheduling/doGetAllScheduling')
     },
+    getAllWarehouse: function () {
+      this.$store.dispatch('warehouse/doGetAllWarehouse')
+    },
+    setWarehouseId: function () {
+      let warehouseSelection = document.getElementById('warehouseSelection')
+      this.warehouseId = warehouseSelection.options[warehouseSelection.selectedIndex].value
+    },
     executeRecommendation: function () {
       axios.get('/api/recommendation/execute')
     },
     recommendationResult: function () {
-      var app = this
-      app.$router.push('/recommendation')
+      this.$router.push({
+        name: 'recommendation',
+        params: {
+          warehouseId: this.warehouseId
+        }
+      })
     }
   }
 }

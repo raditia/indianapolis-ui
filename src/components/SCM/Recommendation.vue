@@ -16,51 +16,14 @@
 
           <!--TODO: Create better way to display recommendation results-->
           <div class="row">
-            <div class="col-md-4">
-              <h5 style="text-align: center">1st option</h5>
+            <div v-for="(recommendationResult, index) in this.recommendation.fleetRecommendationResponseList" :key="recommendationResult.id" class="col-md-4">
+              <h5 style="text-align: center">option #{{index+1}}</h5>
               <select class="form-control" id="firstOption">
-                <option value="1 van">{{ recommendation.fleetRecommendationResponseList[0].fleetName[0] }}</option>
-
-              </select>
-              <!-- <select class="form-control" id="firstOption">
-                <option value="2 van">{{ recommendation.fleetRecommendationResponseList[1].fleetName[0] }}</option>
-              </select> -->
-
-              <br>
-
-              <button class="btn btn-primary">PILIH</button>
-            </div>
-
-            <div class="col-md-4">
-              <h5 style="text-align: center"><b style="color: #0d6aad">Recommended</b></h5>
-              <select class="form-control" id="recommendedOption">
-                <!-- <option value="2 van">{{ recommendation.fleetRecommendationResponseList[1].fleetName[0] }}</option> -->
-               <option :v-for=" result in this.fleetRecommendationResponseList" 
-                :key="result.recommendationResultId" 
-                :value="result.fleetName">
-                {{result.fleetName}}
+                <option v-for="(fleet, index) in recommendationResult.fleetName" :key="index" :value="recommendationResult.id">
+                  {{ fleet }}
                 </option>
               </select>
-              <!-- <select class="form-control" id="recommendedOption">
-                <option value="2 van">{{ recommendation.fleetRecommendationResponseList[3].fleetName[0] }}</option>
-              </select> -->
-
               <br>
-
-              <button class="btn btn-primary" data-toggle="modal" data-target="#callLogisticModal">PILIH</button>
-            </div>
-
-            <div class="col-md-4">
-              <h5 style="text-align: center">2nd option</h5>
-              <select class="form-control" id="secondOption">
-                <option value="2 van">{{ recommendation.fleetRecommendationResponseList[2].fleetName[0] }}</option>
-              </select>
-              <!-- <select class="form-control" id="secondOption">
-                <option value="2 van">{{ recommendation.fleetRecommendationResponseList[5].fleetName[0] }}</option>
-              </select> -->
-
-              <br>
-
               <button class="btn btn-primary">PILIH</button>
             </div>
           </div>
@@ -133,7 +96,8 @@ export default {
       data: {
         warehouseName: '',
         cbmTotal: '',
-        fleetRecommendationResponseList: []
+        fleetRecommendationResponseList: [],
+        warehouseId: ''
       }
     }
   },
@@ -145,13 +109,12 @@ export default {
   mounted () {
     this.getRecommendation()
   },
+  created () {
+    this.warehouseId = this.$route.params.warehouseId
+  },
   methods: {
     getRecommendation: function () {
-      this.$store.dispatch('recommendation/doGetRecommendation')
-      console.log(this.recommendation)
-
-      this.fleetRecommendationResponseList = this.recommendation.fleetRecommendationResponseList
-      console.log(this.fleetRecommendationResponseList)
+      this.$store.dispatch('recommendation/doGetRecommendation', this.warehouseId)
     }
   }
 }
