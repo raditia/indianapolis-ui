@@ -16,15 +16,21 @@
 
           <!--TODO: Create better way to display recommendation results-->
           <div class="row">
-            <div v-for="(recommendationResult, index) in this.recommendation.fleetRecommendationResponseList" :key="recommendationResult.id" class="col-md-4">
+            <div v-for="(recommendationResult, index) in this.recommendation.fleetRecommendationResponseList"
+                 :key="recommendationResult.id" class="col-md-4">
               <h5 style="text-align: center">option #{{index+1}}</h5>
               <select class="form-control" id="firstOption">
-                <option v-for="(fleet, index) in recommendationResult.fleetName" :key="index" :value="recommendationResult.id">
+                <option v-for="(fleet, index) in recommendationResult.fleetName"
+                        :key="index"
+                        :value="recommendationResult.id">
                   {{ fleet }}
                 </option>
               </select>
               <br>
-              <button class="btn btn-primary">PILIH</button>
+              <button class="btn btn-primary"
+                      v-bind:key="recommendationResult.id"
+                      data-toggle="modal"
+                      data-target="#callLogisticModal">PILIH</button>
             </div>
           </div>
         </div>
@@ -67,15 +73,31 @@
                   </div>
                   <div class="col-md-8">
                     <select class="form-control" id="logisticFleet">
-                      <option value="2 van"> 2 Van</option>
-                      <option value="3 motor">3 Motor</option>
+                      <!--<option value="2 van"> 2 Van</option>-->
+                      <!--<option value="3 motor">3 Motor</option>-->
+                      <option v-for="(fleet, index) in recommendationResult.fleetName"
+                              :key="index"
+                              :value="recommendationResult.id">
+                        {{ fleet }}
+                      </option>
                     </select>
+                  </div>
+                </div>
+
+                <br>
+
+                <div class="row">
+                  <div class="col-md-12">
+                    <input id="inputDate" type="date" class="form-control"
+                           placeholder="Enter date">
                   </div>
                 </div>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">CONFIRM</button>
+                <button type="button"
+                        class="btn btn-primary"
+                        @click="chooseRecommendation">CONFIRM</button>
               </div>
             </div>
           </div>
@@ -97,7 +119,11 @@ export default {
         warehouseName: '',
         cbmTotal: '',
         fleetRecommendationResponseList: [],
-        warehouseId: ''
+        warehouseId: '',
+        choosingRecommendation: {
+          recommendationResultId: '',
+          pickupDate: ''
+        }
       }
     }
   },
@@ -115,6 +141,9 @@ export default {
   methods: {
     getRecommendation: function () {
       this.$store.dispatch('recommendation/doGetRecommendation', this.warehouseId)
+    },
+    chooseRecommendation: function () {
+      this.$store.dispatch('recommendation/doPostRecommendation', this.choosingRecommendation)
     }
   }
 }
