@@ -73,13 +73,13 @@
                   </div>
                   <div class="col-md-8">
                     <select class="form-control" id="logisticFleet">
-                      <!--<option value="2 van"> 2 Van</option>-->
-                      <!--<option value="3 motor">3 Motor</option>-->
-                      <option v-for="(fleet, index) in recommendationResult.fleetName"
-                              :key="index"
-                              :value="recommendationResult.id">
-                        {{ fleet }}
-                      </option>
+                      <option value="2 van"> 2 Van</option>
+                      <option value="3 motor">3 Motor</option>
+                      <!--<option v-for="(fleet, index) in recommendationResult.fleetName"-->
+                              <!--:key="index"-->
+                              <!--:value="recommendationResult.id">-->
+                        <!--{{ fleet }}-->
+                      <!--</option>-->
                     </select>
                   </div>
                 </div>
