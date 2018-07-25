@@ -9,6 +9,7 @@ import mapModule from './modules/map/index'
 import schedulingModule from './modules/scheduling/index'
 import recommendationModule from './modules/recommendation/index'
 import warehouseCategoryModule from './modules/warehouse_category/index'
+import checkStatusModule from './modules/check_status/index'
 
 Vue.use(Vuex)
 
@@ -22,7 +23,8 @@ const store = new Vuex.Store({
     map: mapModule,
     scheduling: schedulingModule,
     recommendation: recommendationModule,
-    warehouseCategory: warehouseCategoryModule
+    warehouseCategory: warehouseCategoryModule,
+    checkStatus: checkStatusModule
   }
 })
 

@@ -8,7 +8,7 @@
             <div class="row">
               <div class="col-md-12">
                 <div class="form-group">
-                  <input id="input_search" type="text" style="width: 100%"/>
+                  <input id="input_search" v-model="cffId" type="text" style="width: 100%"/>
                 </div>
                 <div class="form-group">
                   <button type="submit" class="btn btn-default" style="float: right">Submit</button>
@@ -25,7 +25,17 @@
 
 <script>
 export default {
-  name: 'CheckStatus'
+  name: 'CheckStatus',
+  data () {
+    return {
+      cffId: ''
+    }
+  },
+  methods: {
+    getCheckStatus: function () {
+      this.$store.dispatch('check_status/doGetCheckStatus', this.cffId)
+    }
+  }
 }
 </script>
 
