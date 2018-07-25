@@ -16,7 +16,9 @@
         </div>
       </div>
     </div>
-    <table class="table table-striped">
+    
+    <div class="table-responsive">
+      <table class="table table-striped">
       <thead>
       <tr>
         <th scope="col">CFF ID</th>
@@ -38,6 +40,7 @@
       </tr>
       </tbody>
     </table>
+    </div>
   </div>
 
 </template>
