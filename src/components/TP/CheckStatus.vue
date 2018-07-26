@@ -11,8 +11,7 @@
                   <input id="input_search" v-model="cffId" type="text" style="width: 100%"/>
                 </div>
                 <div class="form-group">
-                  <button type="submit" class="btn btn-default" style="float: right" 
-                  @click="getCheckStatus; showTable = !showTable">Submit</button>
+                  <button type="button" class="btn btn-primary" style="float: right" @click="getCheckStatus">SEARCH</button>
                 </div>
               </div>
             </div>
@@ -27,7 +26,6 @@
           <table class="table table-stripped" v-if="showTable">
           <thead>
             <tr>
-              <th>
                 <th scope="col">CFF ID</th>
                 <th scope="col">Merchant Name</th>
                 <th scope="col">Pickup Point</th>
@@ -35,18 +33,17 @@
                 <th scope="col">Pickup Date</th>
                 <th scope="col">Warehouse</th>
                 <th scope="col">Status</th>
-              </th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="status in checkStatus" :key="status.cffId">
-              <th scope="row">{{scheduling.cffId}}</th>
-              <td>{{ status.merchantName }}</td>
-              <td>{{ status.pickupPointAddress }}</td>
-              <td>{{ status.cbmTotal }}</td>
-              <td>{{ status.pickupDate }}</td>
-              <td>{{ status.warehouseName }}</td>
-              <td>{{ status.schedulingStatus }}</td>
+            <tr :key="checkStatus.cffId">
+              <th scope="row">{{checkStatus.cffId}}</th>
+              <td>{{ checkStatus.merchantName }}</td>
+              <td>{{ checkStatus.pickupPointAddress }}</td>
+              <td>{{ checkStatus.cbmTotal }}</td>
+              <td>{{ formattedDate }}</td>
+              <td>{{ checkStatus.warehouseName }}</td>
+              <td>{{ checkStatus.schedulingStatus }}</td>
             </tr>
           </tbody>
         </table>
@@ -71,10 +68,15 @@ export default {
   computed: {
     ...mapGetters({
       checkStatus: 'check_status/checkStatus'
-    })
+    }),
+    formattedDate: function () {
+      let date = new Date(this.checkStatus.pickupDate)
+      return date.getDate() + '-' + (date.getMonth() + 1) + '-' + date.getFullYear()
+    }
   },
   methods: {
     getCheckStatus: function () {
+      this.showTable = !this.showTable
       this.$store.dispatch('check_status/doGetCheckStatus', this.cffId)
     }
   }

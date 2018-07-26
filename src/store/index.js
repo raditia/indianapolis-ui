@@ -24,7 +24,7 @@ const store = new Vuex.Store({
     scheduling: schedulingModule,
     recommendation: recommendationModule,
     warehouseCategory: warehouseCategoryModule,
-    checkStatus: checkStatusModule
+    check_status: checkStatusModule
   }
 })
 
