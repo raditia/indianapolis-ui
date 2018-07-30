@@ -75,11 +75,9 @@
                     <select class="form-control" id="logisticFleet">
                       <option value="2 van"> 2 Van</option>
                       <option value="3 motor">3 Motor</option>
-                      <!--<option v-for="(fleet, index) in recommendationResult.fleetName"-->
-                              <!--:key="index"-->
-                              <!--:value="recommendationResult.id">-->
-                        <!--{{ fleet }}-->
-                      <!--</option>-->
+                      <!-- <option :key="recommendationResult.id" :value="recommendationResult.id">
+                        {{ recommendationResult.fleetName }}
+                      </option> -->
                     </select>
                   </div>
                 </div>
@@ -140,24 +138,29 @@ export default {
   },
   methods: {
     getRecommendation: function () {
-      this.$store.dispatch('recommendation/doGetRecommendation', this.warehouseId)
+      this.$store.dispatch(
+        'recommendation/doGetRecommendation',
+        this.warehouseId
+      )
     },
     chooseRecommendation: function () {
-      this.$store.dispatch('recommendation/doPostRecommendation', this.choosingRecommendation)
+      this.$store.dispatch(
+        'recommendation/doPostRecommendation',
+        this.choosingRecommendation
+      )
     }
   }
 }
 </script>
 
 <style scoped>
-  .box-recommendation {
-    width: 100%;
-    height: auto;
-    background-color: #ffffff;
-    box-shadow: 1px 9px 4px 0 rgba(119, 151, 178, 0.16);
-  }
+.box-recommendation {
+  width: 100%;
+  height: auto;
+  background-color: #ffffff;
+  box-shadow: 1px 9px 4px 0 rgba(119, 151, 178, 0.16);
+}
 
-  .btn-pilih {
-
-  }
+.btn-pilih {
+}
 </style>
