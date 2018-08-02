@@ -59,10 +59,6 @@
                         {{ item.name }}
                       </option>
                     </select>
-                    <!--<li v-for="item in fleetList" :key="item.id">-->
-                      <!--<input type="checkbox" :value="item.id" id="allowedVehiclesSelection"
-                      v-model="allowedVehicles"> {{item.name}}-->
-                    <!--</li>-->
                   </div>
                 </div>
               </div>
@@ -84,11 +80,11 @@
                   </div>
                 </div>
                 <div class="col-md-6">
-                  <div class="form-group">
+                  <!-- <div class="form-group">
                     <label>Date</label>
                     <input id="inputDate" v-model="date" type="date" class="form-control"
                            placeholder="Enter date">
-                  </div>
+                  </div> -->
                 </div>
               </div>
               <div class="form-group">
@@ -146,7 +142,7 @@ export default {
     return {
       cffID: '',
       tpID: '',
-      date: '',
+      // date: '',
       merchant: {
         name: '',
         emailAddress: '',
@@ -275,7 +271,7 @@ export default {
             emailAddress: this.merchant.emailAddress,
             phoneNumber: this.merchant.phoneNumber
           },
-          pickupDate: this.date,
+          // pickupDate: this.date,
           warehouse: {
             id: this.warehouseId
           },
@@ -319,7 +315,7 @@ export default {
       this.tp = {
         id: ''
       }
-      this.date = ''
+      // this.date = ''
       this.merchant = {
         name: '',
         emailAddress: '',
