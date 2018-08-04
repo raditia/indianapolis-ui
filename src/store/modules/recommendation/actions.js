@@ -14,8 +14,7 @@ const doGetRecommendation = ({commit}, warehouseId) => {
 const doPostRecommendation = ({commit}, recommendationData) => {
   axios.post(
     '/api/recommendation/pickup', {
-      recommendationResultId: recommendationData.recommendationResultId,
-      pickupDate: recommendationData.pickupDate
+      recommendationResultId: recommendationData.recommendationResultId
     }, {
       headers: {
         'Content-type': 'application/json'

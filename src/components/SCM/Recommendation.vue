@@ -14,7 +14,6 @@
 
           <hr>
 
-          <!--TODO: Create better way to display recommendation results-->
           <div class="row">
             <div v-for="(recommendationResult, index) in this.recommendation.fleetRecommendationResponseList"
                  :key="recommendationResult.id" class="col-md-4">
@@ -30,7 +29,8 @@
               <button class="btn btn-primary"
                       v-bind:key="recommendationResult.id"
                       data-toggle="modal"
-                      data-target="#callLogisticModal">PILIH</button>
+                      data-target="#callLogisticModal"
+                      @click="getOption(recommendationResult.id)">PILIH</button>
             </div>
           </div>
         </div>
@@ -47,15 +47,15 @@
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-dismiss="modal"
-                        data-target="#logisticEditDetailModal">Yes I did!</button>
+                        data-target="#recommendationEditModal">Yes I did!</button>
               </div>
             </div>
           </div>
         </div>
 
         <!--Edit details modal-->
-        <div class="modal fade" id="logisticEditDetailModal" tabindex="-1" role="dialog"
-             aria-labelledby="logisticEditDetailLabel"
+        <!-- <div class="modal fade" id="logisticEditDetailModal" tabindex="-1" role="dialog" -->
+             <!-- aria-labelledby="logisticEditDetailLabel"
              aria-hidden="true">
           <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -73,11 +73,11 @@
                   </div>
                   <div class="col-md-8">
                     <select class="form-control" id="logisticFleet">
-                      <option value="2 van"> 2 Van</option>
-                      <option value="3 motor">3 Motor</option>
+                       <option value="2 van"> 2 Van</option>
+                      <option value="3 motor">3 Motor</option> -->
                       <!-- <option :key="recommendationResult.id" :value="recommendationResult.id">
                         {{ recommendationResult.fleetName }}
-                      </option> -->
+                      </option>
                     </select>
                   </div>
                 </div>
@@ -98,16 +98,18 @@
                         @click="chooseRecommendation">CONFIRM</button>
               </div>
             </div>
-          </div>
-        </div>
+          </div> -->
+        <!-- </div> -->
 
       </div>
     </div>
+    <RecommendationEditModal v-bind:recommendationResultId="recommendationResultId"></RecommendationEditModal>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
+import RecommendationEditModal from '@/components/SCM/RecommendationEditModal'
 
 export default {
   name: 'Recommendation',
@@ -118,12 +120,12 @@ export default {
         cbmTotal: '',
         fleetRecommendationResponseList: [],
         warehouseId: '',
-        choosingRecommendation: {
-          recommendationResultId: '',
-          pickupDate: ''
-        }
+        recommendationResultId: ''
       }
     }
+  },
+  components: {
+    RecommendationEditModal
   },
   computed: {
     ...mapGetters({
@@ -143,11 +145,8 @@ export default {
         this.warehouseId
       )
     },
-    chooseRecommendation: function () {
-      this.$store.dispatch(
-        'recommendation/doPostRecommendation',
-        this.choosingRecommendation
-      )
+    getOption: function (recommendationId) {
+      this.recommendationResultId = recommendationId
     }
   }
 }
