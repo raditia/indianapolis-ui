@@ -11,17 +11,17 @@ const doGetRecommendation = ({commit}, warehouseId) => {
     })
 }
 
-const doPostRecommendation = ({commit}, recommendationData) => {
+const doPostRecommendation = ({commit}, recommendationResultId) => {
   axios.post(
     '/api/recommendation/pickup', {
-      recommendationResultId: recommendationData.recommendationResultId
+      recommendationResultId: recommendationResultId
     }, {
       headers: {
         'Content-type': 'application/json'
       }
     })
     .then(response => {
-      commit('postRecommendation', response.data)
+      // commit('postRecommendation', response.data)
     })
     .catch(error => {
       console.log('Error: ' + error)

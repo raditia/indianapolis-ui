@@ -30,7 +30,7 @@
                       v-bind:key="recommendationResult.id"
                       data-toggle="modal"
                       data-target="#callLogisticModal"
-                      @click="getOption(recommendationResult.id)">PILIH</button>
+                      @click="getOption(recommendationResult)">PILIH</button>
             </div>
           </div>
         </div>
@@ -105,7 +105,7 @@
 
       </div>
     </div>
-    <RecommendationEditModal ></RecommendationEditModal>
+    <RecommendationEditModal :recommendationResult="clickedRecommendationResult"/>
   </div>
 </template>
 
@@ -117,12 +117,10 @@ export default {
   name: 'Recommendation',
   data () {
     return {
-      data: {
-        warehouseName: '',
-        cbmTotal: '',
-        fleetRecommendationResponseList: [],
-        warehouseId: '',
-        recommendationResultId: ''
+      warehouseId: '',
+      clickedRecommendationResult: {
+        id: '',
+        fleetName: []
       }
     }
   },
@@ -147,8 +145,8 @@ export default {
         this.warehouseId
       )
     },
-    getOption: function (recommendationId) {
-      this.recommendationResultId = recommendationId
+    getOption: function (recommendationResult) {
+      this.clickedRecommendationResult = recommendationResult
     }
   }
 }

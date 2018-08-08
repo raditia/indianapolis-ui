@@ -3,8 +3,8 @@
     <div class="row" style="float: right;">
       <div class="col-md-6">
         <div class="form-group">
-          <select class="form-control" id="warehouseSelection">
-            <option v-for="item in this.warehouseList" :key="item.id" v-bind:value="item.id" @change="setWarehouseId">
+          <select class="form-control" id="warehouseSelection" @change="setWarehouseId">
+            <option v-for="item in this.warehouseList" :key="item.id" v-bind:value="item.id">
               {{ item.id }}
             </option>
           </select>
