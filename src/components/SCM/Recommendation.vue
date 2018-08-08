@@ -18,10 +18,10 @@
             <div v-for="(recommendationResult, index) in this.recommendation.fleetRecommendationResponseList"
                  :key="recommendationResult.id" class="col-md-4">
               <h5 style="text-align: center">option #{{index+1}}</h5>
-              <select class="form-control" id="firstOption">
-                <option v-for="(fleet, index) in recommendationResult.fleetName"
-                        :key="index"
-                        :value="recommendationResult.id">
+              <select class="form-control" v-for="(fleet, index) in recommendationResult.fleetName"
+                      :key="index"
+                      :value="recommendationResult.id">
+                <option :value="recommendationResult.id">
                   {{ fleet }}
                 </option>
               </select>
@@ -46,8 +46,10 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-dismiss="modal"
-                        data-target="#recommendationEditModal">Yes I did!</button>
+                <!-- <button type="button" class="btn btn-primary" data-toggle="modal"
+                        data-target="#recommendationEditModal">Yes I did!</button> -->
+                <a href="#recommendationEditModal" role="button" class="btn btn-primary"
+                 data-dismiss="modal" data-toggle="modal">Yes I did!</a>
               </div>
             </div>
           </div>
@@ -103,7 +105,7 @@
 
       </div>
     </div>
-    <RecommendationEditModal v-bind:recommendationResultId="recommendationResultId"></RecommendationEditModal>
+    <RecommendationEditModal ></RecommendationEditModal>
   </div>
 </template>
 

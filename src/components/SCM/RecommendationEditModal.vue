@@ -18,11 +18,11 @@
                       <!-- <option :key="recommendationResult.id" :value="recommendationResult.id">
                         {{ recommendationResult.fleetName }}
                       </option> -->
-                      <option v-for="(fleet, index) in recommendationResult.fleetName"
+                      <!-- <option v-for="(fleet, index) in recommendationResult.fleetName"
                         :key="index"
                         :value="recommendationResult.id">
                         {{ fleet }}
-                     </option>
+                     </option> -->
                     </select>
                   </div>
                </div>
@@ -30,8 +30,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button type="button"
-                        class="btn btn-primary"
-                        @click="chooseRecommendation(recommendationResult.id)">CONFIRM</button>
+                        class="btn btn-primary">CONFIRM</button>
             </div>
          </div>
       </div>
