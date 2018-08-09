@@ -11,6 +11,16 @@ const doGetRecommendation = ({commit}, warehouseId) => {
     })
 }
 
+const doGetWarehouse = ({commit}) => {
+  axios.get('/api/recommendation/warehouse')
+    .then(response => {
+      commit('getWarehouse', response.data.data)
+    })
+    .catch(error => {
+      console.log(error)
+    })
+}
+
 const doPostRecommendation = ({commit}, recommendationResultId) => {
   axios.post(
     '/api/recommendation/pickup', {
@@ -30,5 +40,6 @@ const doPostRecommendation = ({commit}, recommendationResultId) => {
 
 export default {
   doGetRecommendation,
+  doGetWarehouse,
   doPostRecommendation
 }

@@ -24,7 +24,6 @@
         <th scope="col">Merchant Name</th>
         <th scope="col">Pickup Point</th>
         <th scope="col">CBM total</th>
-        <th scope="col">Pickup Date</th>
         <th scope="col">Warehouse</th>
       </tr>
       </thead>
@@ -34,7 +33,6 @@
         <td>{{ scheduling.merchantName }}</td>
         <td>{{ scheduling.pickupPointAddress }}</td>
         <td>{{ scheduling.cbmTotal }}</td>
-        <td>{{ scheduling.pickupDate }}</td>
         <td>{{ scheduling.warehouseName }}</td>
       </tr>
       </tbody>
@@ -69,7 +67,7 @@ export default {
   computed: {
     ...mapGetters({
       schedulingList: 'scheduling/schedulingList',
-      warehouseList: 'warehouse/warehouseList'
+      warehouseList: 'recommendation/warehouse'
     })
   },
   mounted () {
@@ -86,7 +84,7 @@ export default {
       this.$store.dispatch('scheduling/doGetAllScheduling')
     },
     getAllWarehouse: function () {
-      this.$store.dispatch('warehouse/doGetAllWarehouse')
+      this.$store.dispatch('recommendation/doGetWarehouse')
     },
     setWarehouseId: function () {
       let warehouseSelection = document.getElementById('warehouseSelection')

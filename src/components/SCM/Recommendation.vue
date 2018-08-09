@@ -15,18 +15,23 @@
           <hr>
 
           <div class="row">
-            <div v-for="(recommendationResult, index) in this.recommendation.fleetRecommendationResponseList"
+            <div v-for="(recommendationResult, index) in this.recommendation.recommendationResultResponseList"
                  :key="recommendationResult.id" class="col-md-4">
               <h5 style="text-align: center">option #{{index+1}}</h5>
-              <select class="form-control" v-for="(fleet, index) in recommendationResult.fleetName"
-                      :key="index"
-                      :value="recommendationResult.id">
-                <option :value="recommendationResult.id">
-                  {{ fleet }}
-                </option>
-              </select>
+              <div v-for="(fleet, index) in recommendationResult.fleetResponseList"
+                   :key="index"
+                   class="box-fleet">
+                {{ fleet.fleetName }}
+              </div>
+              <!--<select class="form-control" v-for="(fleet, index) in recommendationResult.fleetResponseList"-->
+                      <!--:key="index"-->
+                      <!--:value="recommendationResult.id">-->
+                <!--<option :value="recommendationResult.id">-->
+                  <!--{{ fleet.fleetName }}-->
+                <!--</option>-->
+              <!--</select>-->
               <br>
-              <button class="btn btn-primary"
+              <button class="btn btn-primary" style="width: 100%"
                       v-bind:key="recommendationResult.id"
                       data-toggle="modal"
                       data-target="#callLogisticModal"
@@ -55,57 +60,9 @@
           </div>
         </div>
 
-        <!--Edit details modal-->
-        <!-- <div class="modal fade" id="logisticEditDetailModal" tabindex="-1" role="dialog" -->
-             <!-- aria-labelledby="logisticEditDetailLabel"
-             aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-              <div class="modal-body">
-                <h5 style="text-align: center"><b>CONFIRM DETAIL</b></h5>
-
-                <hr>
-
-                <div class="row">
-                  <div class="col-md-4">
-                    <select class="form-control" id="logisticProvider">
-                      <option value="JNE">JNE</option>
-                      <option value="BES">BES</option>
-                    </select>
-                  </div>
-                  <div class="col-md-8">
-                    <select class="form-control" id="logisticFleet">
-                       <option value="2 van"> 2 Van</option>
-                      <option value="3 motor">3 Motor</option> -->
-                      <!-- <option :key="recommendationResult.id" :value="recommendationResult.id">
-                        {{ recommendationResult.fleetName }}
-                      </option>
-                    </select>
-                  </div>
-                </div>
-
-                <br>
-
-                <div class="row">
-                  <div class="col-md-12">
-                    <input id="inputDate" type="date" class="form-control"
-                           placeholder="Enter date">
-                  </div>
-                </div>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button"
-                        class="btn btn-primary"
-                        @click="chooseRecommendation">CONFIRM</button>
-              </div>
-            </div>
-          </div> -->
-        <!-- </div> -->
-
       </div>
     </div>
-    <RecommendationEditModal :recommendationResult="clickedRecommendationResult"/>
+    <RecommendationEditModal :recommendationResult="clickedRecommendationResult" :logisticVendor="logisticVendors"/>
   </div>
 </template>
 
@@ -120,8 +77,9 @@ export default {
       warehouseId: '',
       clickedRecommendationResult: {
         id: '',
-        fleetName: []
-      }
+        fleetResponseList: []
+      },
+      fleetList: {}
     }
   },
   components: {
@@ -129,10 +87,12 @@ export default {
   },
   computed: {
     ...mapGetters({
-      recommendation: 'recommendation/recommendation'
+      recommendation: 'recommendation/recommendation',
+      logisticVendors: 'logistic_vendor/logisticVendorList'
     })
   },
   mounted () {
+    this.getLogisticVendorList()
     this.getRecommendation()
   },
   created () {
@@ -143,6 +103,11 @@ export default {
       this.$store.dispatch(
         'recommendation/doGetRecommendation',
         this.warehouseId
+      )
+    },
+    getLogisticVendorList: function () {
+      this.$store.dispatch(
+        'logistic_vendor/doGetAllLogisticVendor'
       )
     },
     getOption: function (recommendationResult) {
@@ -159,7 +124,14 @@ export default {
   background-color: #ffffff;
   box-shadow: 1px 9px 4px 0 rgba(119, 151, 178, 0.16);
 }
-
-.btn-pilih {
+.box-fleet {
+  width: 100%;
+  text-align: center;
+  background-color: #D9D9D9;
+  padding: 8px 8px 8px 8px;
+  margin-top: 8px;
+  border-radius: 2px;
+  font-weight: bold;
 }
+
 </style>

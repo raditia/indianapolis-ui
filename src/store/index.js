@@ -10,6 +10,7 @@ import schedulingModule from './modules/scheduling/index'
 import recommendationModule from './modules/recommendation/index'
 import warehouseCategoryModule from './modules/warehouse_category/index'
 import checkStatusModule from './modules/check_status/index'
+import logisticVendorModule from './modules/logistic_vendor/index'
 
 Vue.use(Vuex)
 
@@ -24,7 +25,8 @@ const store = new Vuex.Store({
     scheduling: schedulingModule,
     recommendation: recommendationModule,
     warehouseCategory: warehouseCategoryModule,
-    check_status: checkStatusModule
+    check_status: checkStatusModule,
+    logistic_vendor: logisticVendorModule
   }
 })
 

@@ -3,8 +3,10 @@ import mutations from './mutations'
 import actions from './actions'
 
 const state = {
-  recommendation: {},
-  warehouse: []
+  logisticVendorList: [{
+    id: '',
+    name: ''
+  }]
 }
 
 export default {
