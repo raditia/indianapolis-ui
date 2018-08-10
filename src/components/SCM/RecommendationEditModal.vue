@@ -9,12 +9,11 @@
               <div v-for="(fleet, index) in this.recommendationResult.fleetResponseList"
                    :key="index" class="row" style="margin-bottom: 8px; margin-right: 4px">
                 <div class="col-md-4">
-                  <select :key="index" class="form-control" id="logisticProvider">
-                    <option value="bes">
-                      Blibli Express Service
-                    </option>
-                    <option value="jne">
-                      JNE
+                  <select class="form-control" id="logisticProvider" v-model="logisticVendorChoiceList[index]">
+                    <option v-for="(logisticVendor, index) in fleet.logisticVendorResponseList"
+                            :key="index"
+                            :value="logisticVendor.id">
+                      {{ logisticVendor.name }}
                     </option>
                   </select>
                 </div>
@@ -24,10 +23,12 @@
               </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button"
+                        class="btn btn-secondary"
+                        data-dismiss="modal"
+                        @click="resetLogisticVendorChoiceList">Close</button>
                 <button type="button"
                         class="btn btn-primary"
-                        data-dismiss="modal"
                         @click="chooseRecommendation">CONFIRM</button>
             </div>
          </div>
@@ -40,6 +41,12 @@ export default {
   name: 'RecommendationEditModal',
   data () {
     return {
+      logisticVendorChoiceList: [],
+      fleetChoiceRequestList: [{
+        logisticVendorId: '',
+        fleetId: ''
+      }],
+      pickupChoiceRequest: {}
     }
   },
   props: {
@@ -47,19 +54,32 @@ export default {
       id: String,
       fleetResponseList: [{
         fleetId: String,
-        fleetName: String
+        fleetName: String,
+        logisticVendorResponseList: [{
+          id: String,
+          name: String
+        }]
       }]
-    },
-    logisticVendor: {
-      id: String,
-      name: String
     }
   },
   methods: {
+    resetLogisticVendorChoiceList: function () {
+      this.logisticVendorChoiceList = []
+    },
     chooseRecommendation: function () {
+      for (let i = 0; i < this.recommendationResult.fleetResponseList.length; i++) {
+        this.fleetChoiceRequestList[i] = {
+          logisticVendorId: this.logisticVendorChoiceList[i],
+          fleetId: this.recommendationResult.fleetResponseList[i].fleetId
+        }
+      }
+      this.pickupChoiceRequest = {
+        recommendationResultId: this.recommendationResult.id,
+        fleetChoiceRequestList: this.fleetChoiceRequestList
+      }
       this.$store.dispatch(
         'recommendation/doPostRecommendation',
-        this.recommendationResult.id
+        this.pickupChoiceRequest
       )
       window.location.href = '/manage-cff'
     }

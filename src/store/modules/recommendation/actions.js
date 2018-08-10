@@ -21,11 +21,11 @@ const doGetWarehouse = ({commit}) => {
     })
 }
 
-const doPostRecommendation = ({commit}, recommendationResultId) => {
+const doPostRecommendation = ({commit}, pickupChoiceRequest) => {
+  console.log(pickupChoiceRequest)
   axios.post(
-    '/api/recommendation/pickup', {
-      recommendationResultId: recommendationResultId
-    }, {
+    '/api/recommendation/pickup', pickupChoiceRequest,
+    {
       headers: {
         'Content-type': 'application/json'
       }

@@ -62,7 +62,7 @@
 
       </div>
     </div>
-    <RecommendationEditModal :recommendationResult="clickedRecommendationResult" :logisticVendor="logisticVendors"/>
+    <RecommendationEditModal :recommendationResult="clickedRecommendationResult"/>
   </div>
 </template>
 
@@ -87,12 +87,10 @@ export default {
   },
   computed: {
     ...mapGetters({
-      recommendation: 'recommendation/recommendation',
-      logisticVendors: 'logistic_vendor/logisticVendorList'
+      recommendation: 'recommendation/recommendation'
     })
   },
   mounted () {
-    this.getLogisticVendorList()
     this.getRecommendation()
   },
   created () {
@@ -103,11 +101,6 @@ export default {
       this.$store.dispatch(
         'recommendation/doGetRecommendation',
         this.warehouseId
-      )
-    },
-    getLogisticVendorList: function () {
-      this.$store.dispatch(
-        'logistic_vendor/doGetAllLogisticVendor'
       )
     },
     getOption: function (recommendationResult) {
