@@ -30,7 +30,6 @@
                 <th scope="col">Merchant Name</th>
                 <th scope="col">Pickup Point</th>
                 <th scope="col">CBM total</th>
-                <th scope="col">Pickup Date</th>
                 <th scope="col">Warehouse</th>
                 <th scope="col">Status</th>
             </tr>
@@ -41,7 +40,7 @@
               <td>{{ checkStatus.merchantName }}</td>
               <td>{{ checkStatus.pickupPointAddress }}</td>
               <td>{{ checkStatus.cbmTotal }}</td>
-              <td>{{ formattedDate }}</td>
+              <!-- <td>{{ formattedDate }}</td> -->
               <td>{{ checkStatus.warehouseName }}</td>
               <td>{{ checkStatus.schedulingStatus }}</td>
             </tr>

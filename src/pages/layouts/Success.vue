@@ -4,8 +4,24 @@
          <div class="modal-content">
             <div class="modal-body">
                <img src="/src/assets/img/success.png"/>
+               <h1>SUCCESS</h1>
             </div>
          </div>
       </div>
    </div>
 </template>
+
+<script>
+export default {
+  name: 'SuccessModal',
+  data () {
+    return {
+
+    }
+  }
+}
+</script>
+
+<style>
+
+</style>
