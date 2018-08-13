@@ -14,50 +14,28 @@
 
           <hr>
 
-          <!--TODO: Create better way to display recommendation results-->
           <div class="row">
-            <div class="col-md-4">
-              <h5 style="text-align: center">1st option</h5>
-              <select class="form-control" id="firstOption">
-                <option value="1 van">{{ recommendation.fleetRecommendationResponseList[0].fleetName[0] }}</option>
-
-              </select>
-              <!-- <select class="form-control" id="firstOption">
-                <option value="2 van">{{ recommendation.fleetRecommendationResponseList[1].fleetName[0] }}</option>
-              </select> -->
-
+            <div v-for="(recommendationResult, index) in this.recommendation.recommendationResultResponseList"
+                 :key="recommendationResult.id" class="col-md-4">
+              <h5 style="text-align: center">option #{{index+1}}</h5>
+              <div v-for="(fleet, index) in recommendationResult.fleetResponseList"
+                   :key="index"
+                   class="box-fleet">
+                {{ fleet.fleetName }}
+              </div>
+              <!--<select class="form-control" v-for="(fleet, index) in recommendationResult.fleetResponseList"-->
+                      <!--:key="index"-->
+                      <!--:value="recommendationResult.id">-->
+                <!--<option :value="recommendationResult.id">-->
+                  <!--{{ fleet.fleetName }}-->
+                <!--</option>-->
+              <!--</select>-->
               <br>
-
-              <button class="btn btn-primary">PILIH</button>
-            </div>
-
-            <div class="col-md-4">
-              <h5 style="text-align: center"><b style="color: #0d6aad">Recommended</b></h5>
-              <select class="form-control" id="recommendedOption">
-                <option value="2 van">{{ recommendation.fleetRecommendationResponseList[1].fleetName[0] }}</option>
-                
-              </select>
-              <!-- <select class="form-control" id="recommendedOption">
-                <option value="2 van">{{ recommendation.fleetRecommendationResponseList[3].fleetName[0] }}</option>
-              </select> -->
-
-              <br>
-
-              <button class="btn btn-primary" data-toggle="modal" data-target="#callLogisticModal">PILIH</button>
-            </div>
-
-            <div class="col-md-4">
-              <h5 style="text-align: center">2nd option</h5>
-              <select class="form-control" id="secondOption">
-                <option value="2 van">{{ recommendation.fleetRecommendationResponseList[2].fleetName[0] }}</option>
-              </select>
-              <!-- <select class="form-control" id="secondOption">
-                <option value="2 van">{{ recommendation.fleetRecommendationResponseList[5].fleetName[0] }}</option>
-              </select> -->
-
-              <br>
-
-              <button class="btn btn-primary">PILIH</button>
+              <button class="btn btn-primary" style="width: 100%"
+                      v-bind:key="recommendationResult.id"
+                      data-toggle="modal"
+                      data-target="#callLogisticModal"
+                      @click="getOption(recommendationResult)">PILIH</button>
             </div>
           </div>
         </div>
@@ -73,42 +51,10 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-dismiss="modal"
-                        data-target="#logisticEditDetailModal">Yes I did!</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!--Edit details modal-->
-        <div class="modal fade" id="logisticEditDetailModal" tabindex="-1" role="dialog"
-             aria-labelledby="logisticEditDetailLabel"
-             aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-              <div class="modal-body">
-                <h5 style="text-align: center"><b>CONFIRM DETAIL</b></h5>
-
-                <hr>
-
-                <div class="row">
-                  <div class="col-md-4">
-                    <select class="form-control" id="logisticProvider">
-                      <option value="JNE">JNE</option>
-                      <option value="BES">BES</option>
-                    </select>
-                  </div>
-                  <div class="col-md-8">
-                    <select class="form-control" id="logisticFleet">
-                      <option value="2 van"> 2 Van</option>
-                      <option value="3 motor">3 Motor</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">CONFIRM</button>
+                <!-- <button type="button" class="btn btn-primary" data-toggle="modal"
+                        data-target="#recommendationEditModal">Yes I did!</button> -->
+                <a href="#recommendationEditModal" role="button" class="btn btn-primary"
+                 data-dismiss="modal" data-toggle="modal">Yes I did!</a>
               </div>
             </div>
           </div>
@@ -116,22 +62,28 @@
 
       </div>
     </div>
+    <RecommendationEditModal :recommendationResult="clickedRecommendationResult"/>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
+import RecommendationEditModal from '@/components/SCM/RecommendationEditModal'
 
 export default {
   name: 'Recommendation',
   data () {
     return {
-      data: {
-        warehouseName: '',
-        cbmTotal: '',
-        fleetRecommendationResponseList: []
-      }
+      warehouseId: '',
+      clickedRecommendationResult: {
+        id: '',
+        fleetResponseList: []
+      },
+      fleetList: {}
     }
+  },
+  components: {
+    RecommendationEditModal
   },
   computed: {
     ...mapGetters({
@@ -141,27 +93,38 @@ export default {
   mounted () {
     this.getRecommendation()
   },
+  created () {
+    this.warehouseId = this.$route.params.warehouseId
+  },
   methods: {
     getRecommendation: function () {
-      this.$store.dispatch('recommendation/doGetRecommendation')
-      console.log(this.recommendation)
-
-      this.fleetRecommendationResponseList = this.recommendation.fleetRecommendationResponseList
-      console.log(this.fleetRecommendationResponseList)
+      this.$store.dispatch(
+        'recommendation/doGetRecommendation',
+        this.warehouseId
+      )
+    },
+    getOption: function (recommendationResult) {
+      this.clickedRecommendationResult = recommendationResult
     }
   }
 }
 </script>
 
 <style scoped>
-  .box-recommendation {
-    width: 100%;
-    height: auto;
-    background-color: #ffffff;
-    box-shadow: 1px 9px 4px 0 rgba(119, 151, 178, 0.16);
-  }
+.box-recommendation {
+  width: 100%;
+  height: auto;
+  background-color: #ffffff;
+  box-shadow: 1px 9px 4px 0 rgba(119, 151, 178, 0.16);
+}
+.box-fleet {
+  width: 100%;
+  text-align: center;
+  background-color: #D9D9D9;
+  padding: 8px 8px 8px 8px;
+  margin-top: 8px;
+  border-radius: 2px;
+  font-weight: bold;
+}
 
-  .btn-pilih {
-
-  }
 </style>
