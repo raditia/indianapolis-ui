@@ -1,7 +1,7 @@
 import axios from 'axios'
 
-const doGetRecommendation = ({commit}) => {
-  axios.get('/api/recommendation/result?warehouseId=warehouse_cawang')
+const doGetRecommendation = ({commit}, warehouseId) => {
+  axios.get('/api/recommendation/result?warehouseId=' + warehouseId)
     .then(response => {
       commit('getRecommendation', response.data.data)
       console.log(response.data.data)
@@ -11,18 +11,27 @@ const doGetRecommendation = ({commit}) => {
     })
 }
 
-const doPostRecommendation = ({commit}, recommendationData) => {
+const doGetWarehouse = ({commit}) => {
+  axios.get('/api/recommendation/warehouse')
+    .then(response => {
+      commit('getWarehouse', response.data.data)
+    })
+    .catch(error => {
+      console.log(error)
+    })
+}
+
+const doPostRecommendation = ({commit}, pickupChoiceRequest) => {
+  console.log(pickupChoiceRequest)
   axios.post(
-    '/api/recommendation/pickup', {
-      recommendationResultId: recommendationData.recommendationResultId,
-      pickupDate: recommendationData.pickupDate
-    }, {
+    '/api/recommendation/pickup', pickupChoiceRequest,
+    {
       headers: {
         'Content-type': 'application/json'
       }
     })
     .then(response => {
-      commit('postRecommendation', response.data)
+      // commit('postRecommendation', response.data)
     })
     .catch(error => {
       console.log('Error: ' + error)
@@ -31,5 +40,6 @@ const doPostRecommendation = ({commit}, recommendationData) => {
 
 export default {
   doGetRecommendation,
+  doGetWarehouse,
   doPostRecommendation
 }

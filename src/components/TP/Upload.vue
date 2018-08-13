@@ -59,10 +59,6 @@
                         {{ item.name }}
                       </option>
                     </select>
-                    <!--<li v-for="item in fleetList" :key="item.id">-->
-                      <!--<input type="checkbox" :value="item.id" id="allowedVehiclesSelection"
-                      v-model="allowedVehicles"> {{item.name}}-->
-                    <!--</li>-->
                   </div>
                 </div>
               </div>
@@ -84,15 +80,16 @@
                   </div>
                 </div>
                 <div class="col-md-6">
-                  <div class="form-group">
+                  <!-- <div class="form-group">
                     <label>Date</label>
                     <input id="inputDate" v-model="date" type="date" class="form-control"
                            placeholder="Enter date">
-                  </div>
+                  </div> -->
                 </div>
               </div>
               <div class="form-group">
-                <button type="submit" class="btn btn-primary" style="background-color: #1991eb;float: right">
+                <button type="submit" 
+                class="btn btn-primary" style="background-color: #1991eb;float: right">
                   SUBMIT
                 </button>
                 <div id="out-table" style="display: none"></div>
@@ -139,6 +136,10 @@ import axios from 'axios'
 import GoogleMap from './GoogleMap'
 import {eventBus} from '../../main'
 
+// Handler Modal
+import SuccessModal from '@/pages/layouts/Success'
+import FailedModal from '@/pages/layouts/Failed'
+
 export default {
   name: 'upload',
   components: {GoogleMap},
@@ -146,7 +147,7 @@ export default {
     return {
       cffID: '',
       tpID: '',
-      date: '',
+      // date: '',
       merchant: {
         name: '',
         emailAddress: '',
@@ -159,9 +160,13 @@ export default {
       },
       allowedVehicles: [],
       goods: [],
-      jsonFromSheet: []
+      jsonFromSheet: [],
+      message: ''
     }
   },
+  components: {
+    SuccessModal
+  }
   computed: {
     ...mapGetters({
       categoryList: 'category/categoryList',
@@ -275,7 +280,7 @@ export default {
             emailAddress: this.merchant.emailAddress,
             phoneNumber: this.merchant.phoneNumber
           },
-          pickupDate: this.date,
+          // pickupDate: this.date,
           warehouse: {
             id: this.warehouseId
           },
@@ -290,6 +295,14 @@ export default {
           headers: {
             'Content-type': 'application/json'
           }
+        })
+        .then(response => {
+          if(response.data.code == 200) {
+            this.showModal('success')
+          }
+        })
+        .catch(error => {
+          this.showModal('failed')
         })
       this.resetAll()
     },
@@ -319,7 +332,7 @@ export default {
       this.tp = {
         id: ''
       }
-      this.date = ''
+      // this.date = ''
       this.merchant = {
         name: '',
         emailAddress: '',
@@ -330,6 +343,14 @@ export default {
       this.warehouseId = ''
       this.goods = []
       this.jsonFromSheet = []
+    },
+    showModal: function (message) {
+      if(message == 'success') {
+        $('#modalSuccess').modal('show')
+      }
+      else {
+        $('#modalFailed').modal('show')
+      }
     }
   },
   created () {
