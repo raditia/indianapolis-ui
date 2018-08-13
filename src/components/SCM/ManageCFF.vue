@@ -3,7 +3,7 @@
     <div class="row" style="float: right;">
       <div class="col-md-6">
         <div class="form-group">
-          <select class="form-control" id="warehouseSelection" @change="setWarehouseId">
+          <select class="form-control" id="warehouseSelection">
             <option v-for="item in this.warehouseList" :key="item.id" v-bind:value="item.id">
               {{ item.id }}
             </option>
@@ -86,14 +86,12 @@ export default {
     getAllWarehouse: function () {
       this.$store.dispatch('recommendation/doGetWarehouse')
     },
-    setWarehouseId: function () {
-      let warehouseSelection = document.getElementById('warehouseSelection')
-      this.warehouseId = warehouseSelection.options[warehouseSelection.selectedIndex].value
-    },
     executeRecommendation: function () {
       axios.get('/api/recommendation/execute')
     },
     recommendationResult: function () {
+      let warehouseSelection = document.getElementById('warehouseSelection')
+      this.warehouseId = warehouseSelection.options[warehouseSelection.selectedIndex].value
       this.$router.push({
         name: 'recommendation',
         params: {
