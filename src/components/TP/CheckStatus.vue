@@ -1,5 +1,5 @@
 <template>
-  <form>
+  <form @submit.prevent="getCheckStatus">
     <div class="container">
       <div class="col-md-8 offset-2">
         <div class="box-header box-search">
