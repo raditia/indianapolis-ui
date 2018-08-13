@@ -88,7 +88,8 @@
                 </div>
               </div>
               <div class="form-group">
-                <button type="submit" class="btn btn-primary" style="background-color: #1991eb;float: right">
+                <button type="submit" 
+                class="btn btn-primary" style="background-color: #1991eb;float: right">
                   SUBMIT
                 </button>
                 <div id="out-table" style="display: none"></div>
@@ -135,6 +136,10 @@ import axios from 'axios'
 import GoogleMap from './GoogleMap'
 import {eventBus} from '../../main'
 
+// Handler Modal
+import SuccessModal from '@/pages/layouts/Success'
+import FailedModal from '@/pages/layouts/Failed'
+
 export default {
   name: 'upload',
   components: {GoogleMap},
@@ -155,9 +160,13 @@ export default {
       },
       allowedVehicles: [],
       goods: [],
-      jsonFromSheet: []
+      jsonFromSheet: [],
+      message: ''
     }
   },
+  components: {
+    SuccessModal
+  }
   computed: {
     ...mapGetters({
       categoryList: 'category/categoryList',
@@ -287,6 +296,14 @@ export default {
             'Content-type': 'application/json'
           }
         })
+        .then(response => {
+          if(response.data.code == 200) {
+            this.showModal('success')
+          }
+        })
+        .catch(error => {
+          this.showModal('failed')
+        })
       this.resetAll()
     },
     setWarehouse: function () {
@@ -326,6 +343,14 @@ export default {
       this.warehouseId = ''
       this.goods = []
       this.jsonFromSheet = []
+    },
+    showModal: function (message) {
+      if(message == 'success') {
+        $('#modalSuccess').modal('show')
+      }
+      else {
+        $('#modalFailed').modal('show')
+      }
     }
   },
   created () {
