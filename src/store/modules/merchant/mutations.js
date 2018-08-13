@@ -21,10 +21,20 @@ const deleteMerchant = (state, response) => {
   merchantList.splice(merchantList.indexOf(response), 1)
 }
 
+const setShowModal = (state, response) => {
+  state.isShowModal = response
+}
+
+const setIsSuccess = (state, response) => {
+  state.isSuccess = response
+}
+
 export default {
   getAllMerchants,
   getOneMerchant,
   postMerchant,
   updateMerchant,
-  deleteMerchant
+  deleteMerchant,
+  setShowModal,
+  setIsSuccess
 }

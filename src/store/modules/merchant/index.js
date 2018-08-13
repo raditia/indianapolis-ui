@@ -4,7 +4,9 @@ import actions from './actions'
 
 const state = {
   merchantList: [],
-  merchant: ''
+  merchant: '',
+  isShowModal: false,
+  isSuccess: false
 }
 
 export default {

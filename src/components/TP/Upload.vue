@@ -88,8 +88,9 @@
                 </div>
               </div>
               <div class="form-group">
-                <button type="submit" 
-                class="btn btn-primary" style="background-color: #1991eb;float: right">
+                <button type="submit"
+                class="btn btn-primary" style="background-color: #1991eb;float: right" data-toggle="modal"
+                        data-target="#modalUploadCff">
                   SUBMIT
                 </button>
                 <div id="out-table" style="display: none"></div>
@@ -125,6 +126,7 @@
 
         </div>
       </div>
+      <ModalUploadCff :isShowModal="isShowModal" :isSuccess="isSuccess"/>
     </div>
     </form>
 </template>
@@ -137,12 +139,11 @@ import GoogleMap from './GoogleMap'
 import {eventBus} from '../../main'
 
 // Handler Modal
-import SuccessModal from '@/pages/layouts/Success'
-import FailedModal from '@/pages/layouts/Failed'
+import ModalUploadCff from '@/pages/layouts/ModalUploadCff'
 
 export default {
   name: 'upload',
-  components: {GoogleMap},
+  components: {GoogleMap, ModalUploadCff},
   data () {
     return {
       cffID: '',
@@ -160,20 +161,18 @@ export default {
       },
       allowedVehicles: [],
       goods: [],
-      jsonFromSheet: [],
-      message: ''
+      jsonFromSheet: []
     }
   },
-  components: {
-    SuccessModal
-  }
   computed: {
     ...mapGetters({
       categoryList: 'category/categoryList',
       warehouseCategoryList: 'warehouseCategory/warehouseCategoryList',
       fleetList: 'fleet/fleetList',
       merchantList: 'merchant/merchantList',
-      pickupPoint: 'map/map'
+      pickupPoint: 'map/map',
+      isShowModal: 'merchant/isShowModal',
+      isSuccess: 'merchant/isSuccess'
     })
   },
   mounted () {
@@ -297,12 +296,14 @@ export default {
           }
         })
         .then(response => {
-          if(response.data.code == 200) {
-            this.showModal('success')
-          }
+          console.log(response)
+          this.$store.commit('merchant/setShowModal', true)
+          this.$store.commit('merchant/setIsSuccess', true)
         })
         .catch(error => {
-          this.showModal('failed')
+          console.log('Error upload CFF : ' + error)
+          this.$store.commit('merchant/setShowModal', true)
+          this.$store.commit('merchant/setIsSuccess', false)
         })
       this.resetAll()
     },
@@ -344,13 +345,9 @@ export default {
       this.goods = []
       this.jsonFromSheet = []
     },
-    showModal: function (message) {
-      if(message == 'success') {
-        $('#modalSuccess').modal('show')
-      }
-      else {
-        $('#modalFailed').modal('show')
-      }
+    testShowModal: function () {
+      this.isShowModal = true
+      this.isSuccess = true
     }
   },
   created () {
