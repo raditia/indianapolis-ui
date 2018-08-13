@@ -77,7 +77,7 @@ const routes = [
     meta: {requiresAuth: true, scmAuth: true, tpAuth: false}
   },
   {
-    path: '/recommendation',
+    path: '/recommendation?warehouse=:warehouseId',
     name: 'recommendation',
     component: RecommendationPage,
     meta: {requiresAuth: true, scmAuth: true, tpAuth: false}
