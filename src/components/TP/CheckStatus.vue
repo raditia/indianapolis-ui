@@ -11,7 +11,9 @@
                   <input id="input_search" v-model="cffId" type="text" style="width: 100%"/>
                 </div>
                 <div class="form-group">
-                  <button type="button" class="btn btn-primary" style="float: right" @click="getCheckStatus">SEARCH</button>
+                  <button type="button" class="btn btn-primary" style="float: right"
+                  @click="getCheckStatus"
+                  @keyup.enter="getCheckStatus">SEARCH</button>
                 </div>
               </div>
             </div>
