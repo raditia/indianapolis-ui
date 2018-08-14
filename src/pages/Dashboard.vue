@@ -3,7 +3,7 @@
     <div class="col-sm-12 col-md-12">
       <h3>Welcome !!!</h3>
       <p>
-        MANTAPANJENG
+        INI DASHBOARD
       </p>
     </div>
   </div>
