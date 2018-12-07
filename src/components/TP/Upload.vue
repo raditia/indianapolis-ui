@@ -126,7 +126,6 @@
 
         </div>
       </div>
-      <ModalUploadCff :isShowModal="isShowModal" :isSuccess="isSuccess"/>
     </div>
     </form>
 </template>
@@ -297,13 +296,23 @@ export default {
         })
         .then(response => {
           console.log(response)
-          this.$store.commit('merchant/setShowModal', true)
-          this.$store.commit('merchant/setIsSuccess', true)
+          // this.$store.commit('merchant/setShowModal', true)
+          // this.$store.commit('merchant/setIsSuccess', true)
+          this.$swal({
+            type: 'success',
+            title: 'Done!',
+            text: 'Success Upload CFF!'
+          })
         })
         .catch(error => {
           console.log('Error upload CFF : ' + error)
-          this.$store.commit('merchant/setShowModal', true)
-          this.$store.commit('merchant/setIsSuccess', false)
+          // this.$store.commit('merchant/setShowModal', true)
+          // this.$store.commit('merchant/setIsSuccess', false)
+          this.$swal({
+            type: 'error',
+            title: 'Oops...',
+            text: 'Something went wrong!'
+          })
         })
       this.resetAll()
     },

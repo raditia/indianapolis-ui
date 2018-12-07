@@ -21,6 +21,6 @@ describe('Login.vue', () => {
       // assert result
       expect(LoginComponent.$el.querySelector('.alert').textContent)
          .toEqual('Login success!')
-      expect(LoginComponent)
+      expect(LoginComponent.loginDataResponse != null)
    })
 })

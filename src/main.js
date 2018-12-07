@@ -6,6 +6,7 @@ import router from './router'
 import store from './store'
 import BootstrapVue from 'bootstrap-vue'
 import * as VueGoogleMaps from 'vue2-google-maps'
+import VueSweetAlert from 'vue-sweetalert2'
 
 Vue.use(VueGoogleMaps, {
   load: {
@@ -15,6 +16,7 @@ Vue.use(VueGoogleMaps, {
 })
 
 Vue.use(BootstrapVue)
+Vue.use(VueSweetAlert)
 
 Vue.config.productionTip = false
 
